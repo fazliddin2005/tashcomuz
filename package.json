@@ -1,0 +1,7 @@
+{
+  "name": "tashcom",
+  "version": "1.0.0",
+  "description": "Tashcom - Auto Parts Export",
+  "private": true,
+  "engines": { "node": "18.x" }
+}

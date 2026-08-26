@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tashcom — Экспорт автозапчастей</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D1526;
+  --bg2:#111D35;
+  --card:#172040;
+  --card2:#1E2D52;
+  --cyan:#00BFFF;
+  --cyan2:#0099CC;
+  --text:#EDF4FF;
+  --muted:#7A9EC0;
+  --light:#B8D0EA;
+  --border:rgba(0,191,255,0.15);
+  --border2:rgba(255,255,255,0.09);
+  --white10:rgba(255,255,255,0.08);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  font-size:16px;line-height:1.6;
+  overflow-x:hidden
+}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--cyan2);border-radius:2px}
+
+/* CANVAS */
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* LANG SWITCHER */
+.lang-bar{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;justify-content:flex-end;
+  padding:6px 20px;
+  background:rgba(13,21,38,0.95);
+  border-bottom:1px solid var(--border2);
+  font-size:.72rem;gap:8px;
+}
+.lang-btn{
+  background:none;border:1px solid var(--border2);
+  color:var(--muted);padding:4px 12px;border-radius:4px;
+  cursor:pointer;font-size:.7rem;font-family:'Inter',sans-serif;
+  transition:border-color .2s,color .2s
+}
+.lang-btn.active,.lang-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* NAV */
+nav{
+  position:fixed;top:30px;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 60px;
+  background:rgba(13,21,38,0.75);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border2);
+  transition:background .3s
+}
+nav.scrolled{background:rgba(13,21,38,0.97)}
+.logo{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.5rem;font-weight:700;
+  letter-spacing:-.02em;color:var(--text);text-decoration:none
+}
+.logo span{color:var(--cyan)}
+nav ul{list-style:none;display:flex;gap:28px;align-items:center}
+nav ul a{
+  color:var(--muted);text-decoration:none;
+  font-size:.85rem;font-weight:500;transition:color .2s
+}
+nav ul a:hover{color:var(--text)}
+.nav-cta{
+  background:var(--cyan);color:#061020!important;
+  padding:9px 22px;border-radius:8px;
+  font-weight:600!important;font-size:.82rem!important;
+  transition:opacity .2s,transform .15s!important
+}
+.nav-cta:hover{opacity:.85;transform:translateY(-1px)}
+
+/* HERO */
+#hero{
+  position:relative;z-index:10;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:160px 24px 100px;
+  overflow:hidden
+}
+/* SVG background instead of external image */
+.hero-bg{
+  position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(180deg,rgba(13,21,38,.6) 0%,rgba(13,21,38,.45) 50%,rgba(13,21,38,.88) 100%),
+    linear-gradient(135deg,#0D1526 0%,#112040 40%,#0A1830 100%);
+}
+/* Decorative truck SVG in hero bg */
+.hero-truck{
+  position:absolute;bottom:60px;right:5%;
+  width:420px;opacity:.12;z-index:0;pointer-events:none
+}
+.hero-glow{
+  position:absolute;top:35%;left:50%;transform:translate(-50%,-50%);
+  width:800px;height:500px;
+  background:radial-gradient(ellipse,rgba(0,191,255,.1) 0%,transparent 65%);
+  pointer-events:none
+}
+.hero-glow2{
+  position:absolute;bottom:10%;left:15%;
+  width:400px;height:300px;
+  background:radial-gradient(ellipse,rgba(0,100,200,.07) 0%,transparent 70%);
+  pointer-events:none
+}
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--cyan);background:rgba(0,191,255,.08);
+  border:1px solid rgba(0,191,255,.22);
+  border-radius:100px;padding:7px 20px;margin-bottom:28px;
+  animation:fadeUp .6s ease both
+}
+.badge::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);animation:pulse 2s infinite
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2.6rem,5.5vw,4.8rem);
+  font-weight:700;line-height:1.08;letter-spacing:-.03em;
+  max-width:860px;margin-bottom:22px;
+  animation:fadeUp .7s .1s ease both
+}
+.grad{
+  background:linear-gradient(135deg,#ffffff 0%,var(--cyan) 55%,#5BA8E0 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text
+}
+.hero-sub{
+  font-size:1.05rem;color:var(--light);
+  max-width:560px;margin-bottom:36px;font-weight:300;
+  animation:fadeUp .7s .2s ease both
+}
+.flags-row{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+  margin-bottom:44px;animation:fadeUp .7s .3s ease both
+}
+.flag-pill{
+  display:flex;align-items:center;gap:7px;
+  font-size:.78rem;font-weight:500;color:var(--light);
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:100px;padding:6px 16px;
+  backdrop-filter:blur(8px);
+  transition:border-color .2s,background .2s
+}
+.flag-pill:hover{border-color:var(--cyan);background:rgba(0,191,255,.08)}
+.hero-btns{
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp .7s .4s ease both
+}
+.btn-p{
+  background:var(--cyan);color:#061020;
+  padding:14px 36px;border-radius:10px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.92rem;font-weight:700;text-decoration:none;
+  transition:transform .15s,box-shadow .2s;
+  box-shadow:0 4px 24px rgba(0,191,255,.28)
+}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,191,255,.42)}
+.btn-g{
+  border:1px solid rgba(255,255,255,.18);color:var(--text);
+  padding:14px 36px;border-radius:10px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.92rem;font-weight:500;text-decoration:none;
+  background:rgba(255,255,255,.05);
+  transition:border-color .2s,background .2s
+}
+.btn-g:hover{border-color:var(--cyan);background:rgba(0,191,255,.07)}
+
+/* STATS */
+.stats-bar{
+  position:relative;z-index:10;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:40px 60px;
+  display:flex;justify-content:center;gap:0
+}
+.stat-item{
+  text-align:center;flex:1;max-width:240px;
+  padding:0 48px;border-right:1px solid var(--border2)
+}
+.stat-item:last-child{border-right:none}
+.stat-num{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:2.5rem;font-weight:700;
+  color:var(--cyan);letter-spacing:-.03em;line-height:1
+}
+.stat-label{
+  font-size:.75rem;color:var(--muted);
+  margin-top:7px;letter-spacing:.05em;text-transform:uppercase
+}
+
+/* SECTION WRAPPER */
+.sw{position:relative;z-index:10;padding:100px 64px;max-width:1240px;margin:0 auto}
+.section-tag{
+  font-size:.68rem;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--cyan);margin-bottom:12px
+}
+h2{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:700;
+  letter-spacing:-.025em;line-height:1.18;margin-bottom:14px
+}
+.sdesc{color:var(--muted);max-width:520px;margin-bottom:52px;font-size:.98rem}
+
+/* VISUAL CARDS GRID — раскладка исправлена */
+.vgrid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  grid-template-rows:auto auto;
+  gap:16px;
+  margin-bottom:48px
+}
+.vcard{
+  border-radius:18px;overflow:hidden;
+  background:var(--card2);
+  border:1px solid var(--border2);
+  position:relative;
+  transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .25s
+}
+.vcard:hover{transform:translateY(-4px);border-color:var(--border)}
+
+/* SVG иллюстрации вместо внешних картинок */
+.vcard-svg{
+  width:100%;display:block;
+}
+.vcard.big{grid-row:1/3}
+.vcard.big .vcard-svg{height:380px}
+.vcard.small .vcard-svg{height:175px}
+
+.vcard-label{
+  position:absolute;bottom:12px;left:12px;right:12px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.8rem;font-weight:600;color:#fff;
+  background:rgba(13,21,38,.72);
+  backdrop-filter:blur(10px);
+  padding:8px 14px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.08)
+}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:0}
+.tag{
+  background:var(--card2);border:1px solid var(--border2);
+  border-radius:100px;padding:7px 18px;
+  font-size:.78rem;color:var(--light);
+  transition:border-color .2s,color .2s
+}
+.tag:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* ROUTE */
+#route-s{
+  position:relative;z-index:10;
+  background:var(--bg2);
+  border-top:1px solid var(--border2);
+  border-bottom:1px solid var(--border2);
+  padding:100px 64px
+}
+.route-inner{max-width:1240px;margin:0 auto}
+.route-track{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:22px;padding:44px 48px;gap:12px;
+  margin-top:52px;flex-wrap:nowrap;overflow-x:auto
+}
+.rnode{
+  display:flex;flex-direction:column;align-items:center;
+  gap:10px;min-width:90px;flex-shrink:0
+}
+.ricon{
+  width:62px;height:62px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;
+  background:var(--card2);border:1px solid var(--border2);
+  flex-shrink:0
+}
+.ricon.origin{
+  background:rgba(0,191,255,.12);
+  border-color:rgba(0,191,255,.4);
+  box-shadow:0 0 28px rgba(0,191,255,.18)
+}
+.rname{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.8rem;font-weight:600;text-align:center;line-height:1.3
+}
+.rsub{font-size:.68rem;color:var(--muted);text-align:center;line-height:1.4}
+
+.rarrow{
+  flex:1;min-width:36px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:1
+}
+.rline{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,var(--cyan),rgba(0,191,255,.15));
+  position:relative
+}
+.rline::after{
+  content:'▸';position:absolute;right:-3px;top:-9px;
+  color:var(--cyan);font-size:.75rem
+}
+.rtag{font-size:.62rem;color:var(--muted);letter-spacing:.04em;white-space:nowrap}
+
+/* COUNTRIES */
+.countries{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:14px;margin-top:44px
+}
+.ccard{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:16px;padding:26px 16px;text-align:center;
+  position:relative;overflow:hidden;
+  transition:border-color .25s,transform .25s,box-shadow .25s
+}
+.ccard::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--cyan),transparent);
+  transform:scaleX(0);transition:transform .3s
+}
+.ccard:hover{
+  border-color:rgba(0,191,255,.3);
+  transform:translateY(-5px);
+  box-shadow:0 18px 44px rgba(0,0,0,.35)
+}
+.ccard:hover::after{transform:scaleX(1)}
+.cflag{font-size:2.2rem;margin-bottom:10px}
+.ccard h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.88rem;font-weight:600;margin-bottom:6px
+}
+.ccard p{font-size:.73rem;color:var(--muted);line-height:1.5}
+
+/* HOW */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:16px;padding:30px 22px;
+  transition:border-color .25s,transform .2s
+}
+.step:hover{border-color:var(--border);transform:translateY(-3px)}
+.step-ico{font-size:1.6rem;margin-bottom:14px;display:block}
+.step-n{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:2.8rem;font-weight:700;
+  color:rgba(0,191,255,.13);line-height:1;margin-bottom:14px
+}
+.step h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.92rem;font-weight:600;margin-bottom:8px
+}
+.step p{font-size:.83rem;color:var(--muted);line-height:1.65}
+
+/* WHY */
+#why{
+  position:relative;z-index:10;
+  background:var(--bg2);
+  border-top:1px solid var(--border2);
+  border-bottom:1px solid var(--border2)
+}
+.why-inner{max-width:1240px;margin:0 auto;padding:100px 64px}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+/* SVG illustration panel */
+.why-illus{border-radius:20px;overflow:hidden;position:relative}
+.why-badge{
+  position:absolute;bottom:20px;left:20px;right:20px;
+  background:rgba(13,21,38,.88);backdrop-filter:blur(12px);
+  border:1px solid var(--border);border-radius:14px;
+  padding:18px 20px;display:flex;align-items:center;gap:14px
+}
+.wib-icon{font-size:1.7rem;flex-shrink:0}
+.wib-text h4{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.88rem;font-weight:600;margin-bottom:2px
+}
+.wib-text p{font-size:.75rem;color:var(--muted)}
+
+.why-points{display:flex;flex-direction:column;gap:16px;margin-top:36px}
+.wp{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:18px 20px;background:var(--card);
+  border:1px solid var(--border2);border-radius:14px;
+  transition:border-color .2s
+}
+.wp:hover{border-color:var(--border)}
+.wp-icon{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  background:rgba(0,191,255,.1);border:1px solid rgba(0,191,255,.2);
+  display:flex;align-items:center;justify-content:center;font-size:1rem
+}
+.wp-text h4{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;margin-bottom:2px}
+.wp-text p{font-size:.8rem;color:var(--muted)}
+
+/* CONTACT */
+#contact-s{
+  position:relative;z-index:10;
+  padding:110px 64px;max-width:1000px;margin:0 auto;text-align:center
+}
+.contact-wrap{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:24px;padding:68px 60px;
+  position:relative;overflow:hidden
+}
+.contact-wrap::before{
+  content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:500px;height:240px;
+  background:radial-gradient(ellipse,rgba(0,191,255,.07) 0%,transparent 70%);
+  pointer-events:none
+}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;margin-top:44px}
+.ci{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:24px 16px;border:1px solid var(--border2);border-radius:14px;
+  transition:border-color .2s,background .2s
+}
+.ci:hover{border-color:var(--border);background:rgba(0,191,255,.04)}
+.ci-icon{font-size:1.4rem}
+.ci-lbl{font-size:.68rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.ci-val{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.88rem;font-weight:600;text-align:center
+}
+
+footer{
+  position:relative;z-index:10;
+  border-top:1px solid var(--border2);
+  padding:28px 64px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:.78rem;color:var(--muted)
+}
+.f-logo{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text)}
+.f-logo span{color:var(--cyan)}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-l{opacity:0;transform:translateX(-32px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal-l.in{opacity:1;transform:translateX(0)}
+.reveal-r{opacity:0;transform:translateX(32px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal-r.in{opacity:1;transform:translateX(0)}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+  nav{padding:14px 20px;top:30px}
+  nav ul{display:none}
+  .sw,#route-s,#contact-s,.why-inner{padding:64px 20px}
+  .vgrid{grid-template-columns:1fr;grid-template-rows:auto}
+  .vcard.big{grid-row:auto}
+  .vcard.big .vcard-svg,.vcard.small .vcard-svg{height:200px}
+  .route-track{flex-direction:column;padding:28px 20px}
+  .rarrow{transform:rotate(90deg);width:40px}
+  .countries{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:1fr 1fr}
+  .why-grid{grid-template-columns:1fr}
+  .contact-wrap{padding:44px 20px}
+  .cg{grid-template-columns:1fr}
+  .stats-bar{flex-wrap:wrap;padding:32px 20px;gap:20px}
+  .stat-item{border-right:none;border-bottom:1px solid var(--border2);padding-bottom:20px;max-width:100%}
+  .stat-item:last-child{border-bottom:none;padding-bottom:0}
+  footer{flex-direction:column;gap:10px;text-align:center;padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <span style="color:var(--muted);font-size:.7rem;align-self:center">Язык / Til:</span>
+  <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+  <button class="lang-btn" onclick="setLang('uz')">UZ</button>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="logo" href="#">Tash<span>com</span></a>
+  <ul>
+    <li><a href="#route-s" data-ru="Маршруты" data-uz="Yo'nalishlar">Маршруты</a></li>
+    <li><a href="#how-s" data-ru="Как работаем" data-uz="Qanday ishlaydi">Как работаем</a></li>
+    <li><a href="#why" data-ru="О нас" data-uz="Biz haqimizda">О нас</a></li>
+    <li><a href="#contact-s" class="nav-cta" data-ru="Партнёрство" data-uz="Hamkorlik">Партнёрство</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <!-- Декоративный грузовик SVG -->
+  <svg class="hero-truck" viewBox="0 0 520 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="80" width="320" height="110" rx="8" fill="#00BFFF" opacity=".6"/>
+    <rect x="320" y="40" width="180" height="150" rx="8" fill="#00BFFF" opacity=".5"/>
+    <circle cx="80" cy="200" r="22" fill="#0D1526" stroke="#00BFFF" stroke-width="4"/>
+    <circle cx="80" cy="200" r="10" fill="#00BFFF" opacity=".5"/>
+    <circle cx="400" cy="200" r="22" fill="#0D1526" stroke="#00BFFF" stroke-width="4"/>
+    <circle cx="400" cy="200" r="10" fill="#00BFFF" opacity=".5"/>
+    <rect x="330" y="55" width="160" height="80" rx="4" fill="#0D1526" opacity=".5"/>
+    <line x1="0" y1="195" x2="520" y2="195" stroke="#00BFFF" stroke-width="2" opacity=".3"/>
+  </svg>
+
+  <div class="badge" data-ru="🚛 Узбекистан · Международная доставка" data-uz="🚛 O'zbekiston · Xalqaro yetkazib berish">
+    🚛 Узбекистан · Международная доставка
+  </div>
+
+  <h1>
+    <span data-ru="Автозапчасти из Узбекистана —" data-uz="O'zbekistondan avtomobil ehtiyot qismlari —">
+      Автозапчасти из Узбекистана —
+    </span><br>
+    <span class="grad" data-ru="быстро и надёжно в СНГ" data-uz="tez va ishonchli MDHga">
+      быстро и надёжно в СНГ
+    </span>
+  </h1>
+  <p class="hero-sub" data-ru="Оптовые поставки автодеталей, узлов и запчастей из Ташкента в страны Центральной Азии и СНГ — с официальными документами, таможенным оформлением и отслеживанием груза." data-uz="Toshkentdan Markaziy Osiyo va MDH davlatlariga avtozapchastlar ulgurji yetkazib berish — rasmiy hujjatlar, bojxona va kuzatuv bilan.">
+    Оптовые поставки автодеталей, узлов и запчастей из Ташкента в страны Центральной Азии и СНГ — с официальными документами, таможенным оформлением и отслеживанием груза.
+  </p>
+
+  <div class="flags-row">
+    <div class="flag-pill">🇺🇿 Узбекистан <span style="color:var(--cyan);margin:0 4px">›</span></div>
+    <div class="flag-pill">🇰🇿 Казахстан</div>
+    <div class="flag-pill">🇰🇬 Кыргызстан</div>
+    <div class="flag-pill">🇹🇯 Таджикистан</div>
+    <div class="flag-pill">🇹🇲 Туркменистан</div>
+    <div class="flag-pill">🇷🇺 Россия</div>
+  </div>
+
+  <div class="hero-btns">
+    <button class="btn-p btn-zayavka" onclick="openZayavka()">📋 Оставить заявку</button>
+    <a href="#how-s" class="btn-g" data-ru="Как это работает?" data-uz="Qanday ishlaydi?">Как это работает?</a>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <div class="stat-num" data-target="5000">0</div>
+    <div class="stat-label" data-ru="ПОЗИЦИЙ НА СКЛАДЕ" data-uz="SKU OMBORIDA">ПОЗИЦИЙ НА СКЛАДЕ</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.1s">
+    <div class="stat-num">5</div>
+    <div class="stat-label" data-ru="СТРАН ЭКСПОРТА" data-uz="EKSPORT DAVLATI">СТРАН ЭКСПОРТА</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.2s">
+    <div class="stat-num">3–7</div>
+    <div class="stat-label" data-ru="ДНЕЙ ДО ПОЛУЧАТЕЛЯ" data-uz="KUN — CHEGARA ORTIGA">ДНЕЙ ДО ПОЛУЧАТЕЛЯ</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.3s">
+    <div class="stat-num">B2B</div>
+    <div class="stat-label" data-ru="ТОЛЬКО ОПТОМ" data-uz="FAQAT ULGURJI">ТОЛЬКО ОПТОМ</div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="sw">
+  <div class="section-tag reveal" data-ru="Продукция" data-uz="Mahsulotlar">Продукция</div>
+  <h2 class="reveal" data-ru="Что мы поставляем" data-uz="Nima yetkazib beramiz">Что мы поставляем</h2>
+  <p class="sdesc reveal" data-ru="Широкая номенклатура для легковых и грузовых автомобилей — от двигателя до кузова." data-uz="Yengil va yuk avto uchun keng nomenklatura — dvigateldan kuzovgacha.">
+    Широкая номенклатура для легковых и грузовых автомобилей — от двигателя до кузова.
+  </p>
+
+  <!-- SVG CARDS вместо внешних картинок -->
+  <div class="vgrid reveal">
+    <!-- BIG: склад -->
+    <div class="vcard big">
+      <svg class="vcard-svg" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+        <rect width="500" height="380" fill="#1A2A4A"/>
+        <!-- warehouse floor -->
+        <rect y="280" width="500" height="100" fill="#142038"/>
+        <!-- shelves left -->
+        <rect x="30" y="80" width="12" height="220" fill="#0D3060"/>
+        <rect x="30" y="80" width="140" height="8" fill="#1E4A8A"/>
+        <rect x="30" y="140" width="140" height="8" fill="#1E4A8A"/>
+        <rect x="30" y="200" width="140" height="8" fill="#1E4A8A"/>
+        <rect x="30" y="260" width="140" height="8" fill="#1E4A8A"/>
+        <rect x="162" y="80" width="12" height="220" fill="#0D3060"/>
+        <!-- boxes on shelves -->
+        <rect x="40" y="90" width="30" height="42" rx="3" fill="#00BFFF" opacity=".7"/>
+        <rect x="76" y="90" width="38" height="42" rx="3" fill="#0099CC" opacity=".6"/>
+        <rect x="120" y="95" width="28" height="37" rx="3" fill="#00BFFF" opacity=".5"/>
+        <rect x="40" y="150" width="50" height="42" rx="3" fill="#1565C0" opacity=".8"/>
+        <rect x="96" y="150" width="28" height="42" rx="3" fill="#00BFFF" opacity=".4"/>
+        <rect x="40" y="210" width="35" height="42" rx="3" fill="#00BFFF" opacity=".6"/>
+        <rect x="82" y="212" width="44" height="40" rx="3" fill="#0D5C9A" opacity=".7"/>
+        <!-- shelves right -->
+        <rect x="330" y="80" width="12" height="220" fill="#0D3060"/>
+        <rect x="330" y="80" width="140" height="8" fill="#1E4A8A"/>
+        <rect x="330" y="140" width="140" height="8" fill="#1E4A8A"/>
+        <rect x="330" y="200" width="140" height="8" fill="#1E4A8A"/>
+        <rect x="330" y="260" width="140" height="8" fill="#1E4A8A"/>
+        <rect x="462" y="80" width="12" height="220" fill="#0D3060"/>
+        <rect x="340" y="92" width="42" height="40" rx="3" fill="#00BFFF" opacity=".5"/>
+        <rect x="390" y="90" width="30" height="42" rx="3" fill="#1565C0" opacity=".7"/>
+        <rect x="430" y="94" width="24" height="38" rx="3" fill="#00BFFF" opacity=".6"/>
+        <rect x="340" y="150" width="58" height="42" rx="3" fill="#0099CC" opacity=".6"/>
+        <rect x="406" y="152" width="36" height="40" rx="3" fill="#00BFFF" opacity=".4"/>
+        <rect x="340" y="210" width="30" height="42" rx="3" fill="#1565C0" opacity=".8"/>
+        <rect x="378" y="210" width="48" height="42" rx="3" fill="#00BFFF" opacity=".5"/>
+        <!-- forklift -->
+        <rect x="210" y="220" width="80" height="50" rx="4" fill="#0D3060"/>
+        <rect x="220" y="200" width="8" height="60" fill="#1E4A8A"/>
+        <rect x="216" y="196" width="16" height="6" fill="#00BFFF" opacity=".8"/>
+        <circle cx="220" cy="278" r="10" fill="#142038" stroke="#1E4A8A" stroke-width="3"/>
+        <circle cx="270" cy="278" r="10" fill="#142038" stroke="#1E4A8A" stroke-width="3"/>
+        <!-- ceiling lights -->
+        <ellipse cx="160" cy="40" rx="40" ry="8" fill="#00BFFF" opacity=".1"/>
+        <line x1="160" y1="20" x2="160" y2="45" stroke="#00BFFF" opacity=".3" stroke-width="2"/>
+        <ellipse cx="340" cy="40" rx="40" ry="8" fill="#00BFFF" opacity=".1"/>
+        <line x1="340" y1="20" x2="340" y2="45" stroke="#00BFFF" opacity=".3" stroke-width="2"/>
+        <!-- glow -->
+        <ellipse cx="250" cy="190" rx="130" ry="80" fill="rgba(0,191,255,0.04)"/>
+      </svg>
+      <div class="vcard-label" data-ru="🏭 Склад — 5000+ позиций в наличии" data-uz="🏭 Ombor — 5000+ SKU zaxirada">🏭 Склад — 5000+ позиций в наличии</div>
+    </div>
+    <!-- RIGHT col -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <!-- engine parts -->
+      <div class="vcard small">
+        <svg class="vcard-svg" viewBox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="175" fill="#142038"/>
+          <!-- engine block -->
+          <rect x="120" y="40" width="160" height="110" rx="8" fill="#1A3060"/>
+          <rect x="130" y="50" width="140" height="90" rx="6" fill="#0D2550"/>
+          <!-- cylinders -->
+          <rect x="148" y="30" width="22" height="25" rx="4" fill="#1E4A8A"/>
+          <rect x="180" y="28" width="22" height="27" rx="4" fill="#1565C0"/>
+          <rect x="212" y="30" width="22" height="25" rx="4" fill="#1E4A8A"/>
+          <rect x="244" y="29" width="22" height="26" rx="4" fill="#1565C0"/>
+          <!-- pipes left -->
+          <rect x="60" y="70" width="60" height="12" rx="4" fill="#0099CC"/>
+          <rect x="50" y="60" width="12" height="32" rx="4" fill="#00BFFF" opacity=".7"/>
+          <!-- pipes right -->
+          <rect x="280" y="75" width="60" height="12" rx="4" fill="#0099CC"/>
+          <rect x="338" y="65" width="12" height="32" rx="4" fill="#00BFFF" opacity=".7"/>
+          <!-- bolts -->
+          <circle cx="136" cy="58" r="5" fill="#00BFFF" opacity=".6"/>
+          <circle cx="264" cy="58" r="5" fill="#00BFFF" opacity=".6"/>
+          <circle cx="136" cy="130" r="5" fill="#00BFFF" opacity=".6"/>
+          <circle cx="264" cy="130" r="5" fill="#00BFFF" opacity=".6"/>
+          <!-- glow -->
+          <ellipse cx="200" cy="88" rx="60" ry="35" fill="rgba(0,191,255,0.05)"/>
+        </svg>
+        <div class="vcard-label" data-ru="⚙️ Детали двигателя" data-uz="⚙️ Dvigatel detallari">⚙️ Детали двигателя</div>
+      </div>
+      <!-- cargo truck -->
+      <div class="vcard small">
+        <svg class="vcard-svg" viewBox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="175" fill="#0D1A30"/>
+          <!-- road -->
+          <rect y="130" width="400" height="45" fill="#111E35"/>
+          <rect y="148" width="400" height="4" fill="#1E3A60" opacity=".5"/>
+          <!-- dashes -->
+          <rect x="30" y="148" width="40" height="3" fill="#00BFFF" opacity=".25"/>
+          <rect x="130" y="148" width="40" height="3" fill="#00BFFF" opacity=".25"/>
+          <rect x="230" y="148" width="40" height="3" fill="#00BFFF" opacity=".25"/>
+          <rect x="330" y="148" width="40" height="3" fill="#00BFFF" opacity=".25"/>
+          <!-- trailer -->
+          <rect x="10" y="60" width="240" height="90" rx="5" fill="#1A3060"/>
+          <rect x="14" y="64" width="232" height="82" rx="4" fill="#142850"/>
+          <!-- TASHCOM text on trailer -->
+          <text x="130" y="112" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#00BFFF" opacity=".6">TASHCOM</text>
+          <!-- cab -->
+          <rect x="250" y="55" width="140" height="95" rx="6" fill="#1E3A6A"/>
+          <!-- windshield -->
+          <rect x="258" y="62" width="100" height="55" rx="4" fill="#0D2040"/>
+          <line x1="308" y1="62" x2="308" y2="117" stroke="#1A3060" stroke-width="2"/>
+          <!-- headlight -->
+          <rect x="385" y="90" width="8" height="16" rx="2" fill="#00BFFF" opacity=".9"/>
+          <ellipse cx="389" cy="98" rx="12" ry="8" fill="rgba(0,191,255,0.15)"/>
+          <!-- wheels -->
+          <circle cx="70" cy="140" r="20" fill="#0D1830" stroke="#1E4A8A" stroke-width="4"/>
+          <circle cx="70" cy="140" r="9" fill="#1E3A6A"/>
+          <circle cx="180" cy="140" r="20" fill="#0D1830" stroke="#1E4A8A" stroke-width="4"/>
+          <circle cx="180" cy="140" r="9" fill="#1E3A6A"/>
+          <circle cx="310" cy="140" r="20" fill="#0D1830" stroke="#1E4A8A" stroke-width="4"/>
+          <circle cx="310" cy="140" r="9" fill="#1E3A6A"/>
+          <circle cx="365" cy="140" r="20" fill="#0D1830" stroke="#1E4A8A" stroke-width="4"/>
+          <circle cx="365" cy="140" r="9" fill="#1E3A6A"/>
+          <!-- glow under -->
+          <ellipse cx="200" cy="155" rx="180" ry="10" fill="rgba(0,191,255,0.06)"/>
+        </svg>
+        <div class="vcard-label" data-ru="🚛 Доставка — через границу в СНГ" data-uz="🚛 Yetkazib berish — chegara orqali">🚛 Доставка — через границу в СНГ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAGS -->
+  <div class="tags reveal">
+    <span class="tag" data-ru="⚙️ Детали двигателя" data-uz="⚙️ Dvigatel detallari">⚙️ Детали двигателя</span>
+    <span class="tag" data-ru="🔩 Трансмиссия" data-uz="🔩 Transmissiya">🔩 Трансмиссия</span>
+    <span class="tag" data-ru="🛞 Тормозная система" data-uz="🛞 Tormoz tizimi">🛞 Тормозная система</span>
+    <span class="tag" data-ru="🔧 Подвеска" data-uz="🔧 Osma qismlari">🔧 Подвеска</span>
+    <span class="tag" data-ru="💡 Электрика" data-uz="💡 Elektr jihozlar">💡 Электрика</span>
+    <span class="tag" data-ru="🏗️ Кузовные детали" data-uz="🏗️ Kuzov qismlari">🏗️ Кузовные детали</span>
+    <span class="tag" data-ru="🚚 Запчасти для грузовиков" data-uz="🚚 Yuk avto qismlari">🚚 Запчасти для грузовиков</span>
+  </div>
+</div>
+
+<!-- ROUTE -->
+<div id="route-s">
+  <div class="route-inner">
+    <div class="section-tag reveal" data-ru="Логистика" data-uz="Logistika">Логистика</div>
+    <h2 class="reveal" data-ru="Маршрут: склад — граница — клиент" data-uz="Marshrut: ombor — chegara — mijoz">Маршрут: склад — граница — клиент</h2>
+    <p class="sdesc reveal" data-ru="Каждая партия с GPS-мониторингом, официальными экспортными документами и таможенным сопровождением." data-uz="Har bir jo'natma GPS monitoring va rasmiy eksport hujjatlari bilan.">
+      Каждая партия с GPS-мониторингом, официальными экспортными документами и таможенным сопровождением.
+    </p>
+
+    <div class="route-track reveal">
+      <div class="rnode">
+        <div class="ricon origin">🏭</div>
+        <div class="rname" data-ru="Склад Ташкент" data-uz="Toshkent ombori">Склад Ташкент</div>
+        <div class="rsub" data-ru="Сергелийский р-н" data-uz="Sirg'ali tumani">Сергелийский р-н</div>
+      </div>
+      <div class="rarrow">
+        <div class="rline"></div>
+        <div class="rtag" data-ru="Грузовик" data-uz="Yuk mashinasi">Грузовик</div>
+      </div>
+      <div class="rnode">
+        <div class="ricon">📋</div>
+        <div class="rname" data-ru="Экспорт. документы" data-uz="Eksport hujjatlari">Экспорт. документы</div>
+        <div class="rsub">Invoice · CMR</div>
+      </div>
+      <div class="rarrow">
+        <div class="rline"></div>
+        <div class="rtag" data-ru="Таможня" data-uz="Bojxona">Таможня</div>
+      </div>
+      <div class="rnode">
+        <div class="ricon">🛃</div>
+        <div class="rname" data-ru="Погранпункт" data-uz="Chegara punkti">Погранпункт</div>
+        <div class="rsub" data-ru="Clearance — мы" data-uz="Clearance biz zimmasida">Clearance — мы</div>
+      </div>
+      <div class="rarrow">
+        <div class="rline"></div>
+        <div class="rtag" data-ru="Транзит 3–7 дней" data-uz="Tranzit 3–7 kun">Транзит 3–7 дней</div>
+      </div>
+      <div class="rnode">
+        <div class="ricon">🚛</div>
+        <div class="rname" data-ru="Транзит" data-uz="Tranzit">Транзит</div>
+        <div class="rsub" data-ru="GPS-мониторинг" data-uz="GPS kuzatuvi">GPS-мониторинг</div>
+      </div>
+      <div class="rarrow">
+        <div class="rline"></div>
+        <div class="rtag" data-ru="Доставка" data-uz="Yetkazib berish">Доставка</div>
+      </div>
+      <div class="rnode">
+        <div class="ricon">🤝</div>
+        <div class="rname" data-ru="Склад клиента" data-uz="Mijoz ombori">Склад клиента</div>
+        <div class="rsub" data-ru="Страна СНГ" data-uz="Qo'shni davlat">Страна СНГ</div>
+      </div>
+    </div>
+
+    <div class="section-tag reveal" style="margin-top:68px" data-ru="Направления" data-uz="Yo'nalishlar">Направления</div>
+    <div class="countries reveal">
+      <div class="ccard">
+        <div class="cflag">🇰🇿</div>
+        <h3 data-ru="Казахстан" data-uz="Qozog'iston">Казахстан</h3>
+        <p data-ru="Алматы, Шымкент, Астана" data-uz="Almaty, Shymkent, Astana">Алматы, Шымкент, Астана</p>
+      </div>
+      <div class="ccard">
+        <div class="cflag">🇰🇬</div>
+        <h3 data-ru="Кыргызстан" data-uz="Qirg'iziston">Кыргызстан</h3>
+        <p data-ru="Бишкек, Ош — активный рынок" data-uz="Bishkek, O'sh">Бишкек, Ош — активный рынок</p>
+      </div>
+      <div class="ccard">
+        <div class="cflag">🇹🇯</div>
+        <h3 data-ru="Таджикистан" data-uz="Tojikiston">Таджикистан</h3>
+        <p data-ru="Душанбе, Худжанд — растущий спрос" data-uz="Dushanbe, Xo'jand">Душанбе, Худжанд — растущий спрос</p>
+      </div>
+      <div class="ccard">
+        <div class="cflag">🇹🇲</div>
+        <h3 data-ru="Туркменистан" data-uz="Turkmaniston">Туркменистан</h3>
+        <p data-ru="Ашхабад — по договорённости" data-uz="Ashxabod — kelishuv asosida">Ашхабад — по договорённости</p>
+      </div>
+      <div class="ccard">
+        <div class="cflag">🇷🇺</div>
+        <h3 data-ru="Россия" data-uz="Rossiya">Россия</h3>
+        <p data-ru="Сибирь, Урал — грузовой сегмент" data-uz="Sibir, Ural">Сибирь, Урал — грузовой сегмент</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW -->
+<div class="sw" id="how-s">
+  <div class="section-tag reveal" data-ru="Процесс" data-uz="Jarayon">Процесс</div>
+  <h2 class="reveal" data-ru="4 шага от запроса до склада" data-uz="So'rovdan omborgacha — 4 qadam">4 шага от запроса до склада</h2>
+  <p class="sdesc reveal" data-ru="Никакой лишней бюрократии — всё под нашим контролем." data-uz="Hech qanday murakkablik — biz hamma narsani boshqaramiz.">
+    Никакой лишней бюрократии — всё под нашим контролем.
+  </p>
+  <div class="steps">
+    <div class="step reveal">
+      <span class="step-ico">💬</span>
+      <div class="step-n">01</div>
+      <h3 data-ru="Пришлите запрос" data-uz="So'rov yuboring">Пришлите запрос</h3>
+      <p data-ru="Список запчастей — в Telegram или WhatsApp. Ответим в течение 2 часов с ценой и наличием." data-uz="Zapchastlar ro'yxatini Telegram yoki WhatsApp orqali yuboring. 2 soatda javob beramiz.">Список запчастей — в Telegram или WhatsApp. Ответим в течение 2 часов с ценой и наличием.</p>
+    </div>
+    <div class="step reveal" style="transition-delay:.1s">
+      <span class="step-ico">📊</span>
+      <div class="step-n">02</div>
+      <h3 data-ru="Коммерческое предложение" data-uz="Tijorat taklifi">Коммерческое предложение</h3>
+      <p data-ru="Проверяем склад, фиксируем цену и сроки, готовим КП с точными условиями поставки." data-uz="Ombor tekshiriladi, narx va muddatlar belgilanadi.">Проверяем склад, фиксируем цену и сроки, готовим КП с точными условиями поставки.</p>
+    </div>
+    <div class="step reveal" style="transition-delay:.2s">
+      <span class="step-ico">📄</span>
+      <div class="step-n">03</div>
+      <h3 data-ru="Договор и документы" data-uz="Shartnoma va hujjatlar">Договор и документы</h3>
+      <p data-ru="Экспортная декларация, инвойс, CMR, сертификаты — таможенное оформление берём на себя." data-uz="Eksport deklaratsiyasi, invoice, sertifikatlar — bojxona biz zimmasida.">Экспортная декларация, инвойс, CMR, сертификаты — таможенное оформление берём на себя.</p>
+    </div>
+    <div class="step reveal" style="transition-delay:.3s">
+      <span class="step-ico">🚀</span>
+      <div class="step-n">04</div>
+      <h3 data-ru="Отправка и трекинг" data-uz="Jo'natish va kuzatuv">Отправка и трекинг</h3>
+      <p data-ru="Груз отправляется, каждый этап — уведомление в Telegram. Доставка 3–7 рабочих дней." data-uz="Yuk jo'natiladi, har qadam Telegram orqali xabar beriladi. 3–7 kun.">Груз отправляется, каждый этап — уведомление в Telegram. Доставка 3–7 рабочих дней.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WHY -->
+<div id="why">
+  <div class="why-inner">
+    <div class="why-grid">
+      <!-- SVG logistics illustration -->
+      <div class="why-illus reveal-l">
+        <svg viewBox="0 0 480 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:20px;display:block">
+          <rect width="480" height="520" fill="#142038"/>
+          <!-- map background -->
+          <rect x="20" y="20" width="440" height="300" rx="12" fill="#0D1A30"/>
+          <!-- map grid -->
+          <line x1="20" y1="80" x2="460" y2="80" stroke="#1E3A60" stroke-width="1"/>
+          <line x1="20" y1="140" x2="460" y2="140" stroke="#1E3A60" stroke-width="1"/>
+          <line x1="20" y1="200" x2="460" y2="200" stroke="#1E3A60" stroke-width="1"/>
+          <line x1="20" y1="260" x2="460" y2="260" stroke="#1E3A60" stroke-width="1"/>
+          <line x1="100" y1="20" x2="100" y2="320" stroke="#1E3A60" stroke-width="1"/>
+          <line x1="200" y1="20" x2="200" y2="320" stroke="#1E3A60" stroke-width="1"/>
+          <line x1="300" y1="20" x2="300" y2="320" stroke="#1E3A60" stroke-width="1"/>
+          <line x1="400" y1="20" x2="400" y2="320" stroke="#1E3A60" stroke-width="1"/>
+          <!-- route lines -->
+          <path d="M 240 180 Q 160 120 80 100" stroke="#00BFFF" stroke-width="2" fill="none" stroke-dasharray="6,4" opacity=".7"/>
+          <path d="M 240 180 Q 280 140 340 90" stroke="#00BFFF" stroke-width="2" fill="none" stroke-dasharray="6,4" opacity=".6"/>
+          <path d="M 240 180 Q 200 220 120 260" stroke="#00BFFF" stroke-width="2" fill="none" stroke-dasharray="6,4" opacity=".5"/>
+          <path d="M 240 180 Q 350 220 420 250" stroke="#00BFFF" stroke-width="2" fill="none" stroke-dasharray="6,4" opacity=".5"/>
+          <path d="M 240 180 Q 300 280 360 290" stroke="#00BFFF" stroke-width="2" fill="none" stroke-dasharray="6,4" opacity=".4"/>
+          <!-- origin pin -->
+          <circle cx="240" cy="180" r="14" fill="rgba(0,191,255,0.2)" stroke="#00BFFF" stroke-width="2"/>
+          <circle cx="240" cy="180" r="6" fill="#00BFFF"/>
+          <text x="240" y="208" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" font-weight="bold">TASHKENT</text>
+          <!-- dest pins -->
+          <circle cx="80" cy="100" r="6" fill="#00BFFF" opacity=".7"/>
+          <text x="80" y="92" text-anchor="middle" font-family="Arial" font-size="8" fill="#7A9EC0">KZ</text>
+          <circle cx="340" cy="90" r="6" fill="#00BFFF" opacity=".6"/>
+          <text x="340" y="82" text-anchor="middle" font-family="Arial" font-size="8" fill="#7A9EC0">RU</text>
+          <circle cx="120" cy="260" r="6" fill="#00BFFF" opacity=".5"/>
+          <text x="120" y="278" text-anchor="middle" font-family="Arial" font-size="8" fill="#7A9EC0">TM</text>
+          <circle cx="420" cy="250" r="6" fill="#00BFFF" opacity=".5"/>
+          <text x="420" y="268" text-anchor="middle" font-family="Arial" font-size="8" fill="#7A9EC0">KG</text>
+          <circle cx="360" cy="290" r="6" fill="#00BFFF" opacity=".4"/>
+          <text x="360" y="308" text-anchor="middle" font-family="Arial" font-size="8" fill="#7A9EC0">TJ</text>
+          <!-- bottom stats -->
+          <rect x="20" y="340" width="200" height="80" rx="10" fill="#1A2A4A"/>
+          <text x="120" y="372" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#00BFFF">5000+</text>
+          <text x="120" y="394" text-anchor="middle" font-family="Arial" font-size="10" fill="#7A9EC0">ПОЗИЦИЙ НА СКЛАДЕ</text>
+          <rect x="240" y="340" width="220" height="80" rx="10" fill="#1A2A4A"/>
+          <text x="350" y="372" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#00BFFF">3–7</text>
+          <text x="350" y="394" text-anchor="middle" font-family="Arial" font-size="10" fill="#7A9EC0">ДНЕЙ ДОСТАВКИ</text>
+          <!-- bottom badge -->
+          <rect x="20" y="440" width="440" height="60" rx="10" fill="#1A2A4A"/>
+          <text x="50" y="476" font-family="Arial" font-size="14" fill="#00BFFF">🏆</text>
+          <text x="76" y="468" font-family="Arial" font-size="11" font-weight="bold" fill="#EDF4FF">С 2022 года — надёжный экспортёр</text>
+          <text x="76" y="486" font-family="Arial" font-size="9" fill="#7A9EC0">ООО «TASHCOM» · ИНН 309591399</text>
+        </svg>
+      </div>
+
+      <div class="reveal-r">
+        <div class="section-tag" data-ru="Почему Tashcom" data-uz="Nima uchun Tashcom">Почему Tashcom</div>
+        <h2 data-ru="Граница — не препятствие, а наша работа" data-uz="Chegara — to'siq emas, bu bizning ishimiz">Граница — не препятствие,<br>а наша работа</h2>
+        <div class="why-points">
+          <div class="wp">
+            <div class="wp-icon">📄</div>
+            <div class="wp-text">
+              <h4 data-ru="Полный пакет документов" data-uz="To'liq hujjat paketi">Полный пакет документов</h4>
+              <p data-ru="Экспортная декларация, инвойс, CMR, сертификаты происхождения — оформляем сами." data-uz="Eksport deklaratsiyasi, invoice, sertifikatlar — biz rasmiylashtiramiz.">Экспортная декларация, инвойс, CMR, сертификаты происхождения — оформляем сами.</p>
+            </div>
+          </div>
+          <div class="wp">
+            <div class="wp-icon">⚡</div>
+            <div class="wp-text">
+              <h4 data-ru="Быстрая отправка" data-uz="Tezkor jo'natish">Быстрая отправка</h4>
+              <p data-ru="После подтверждения заказа — отправка в течение 24–48 часов." data-uz="Tasdiqlangandan 24–48 soatda jo'natiladi.">После подтверждения заказа — отправка в течение 24–48 часов.</p>
+            </div>
+          </div>
+          <div class="wp">
+            <div class="wp-icon">💱</div>
+            <div class="wp-text">
+              <h4 data-ru="Международные способы оплаты" data-uz="Xalqaro to'lov usullari">Международные способы оплаты</h4>
+              <p data-ru="SWIFT, наличная валюта, тенге, сумы — работаем как удобно партнёру." data-uz="SWIFT, naqd valyuta, Tenge, So'm — qulay shaklda.">SWIFT, наличная валюта, тенге, сумы — работаем как удобно партнёру.</p>
+            </div>
+          </div>
+          <div class="wp">
+            <div class="wp-icon">📍</div>
+            <div class="wp-text">
+              <h4 data-ru="Отслеживание груза" data-uz="Yuk kuzatuvi">Отслеживание груза</h4>
+              <p data-ru="Уведомления о каждом этапе — через Telegram в режиме реального времени." data-uz="Har qadam Telegram orqali real vaqtda.">Уведомления о каждом этапе — через Telegram в режиме реального времени.</p>
+            </div>
+          </div>
+          <div class="wp">
+            <div class="wp-icon">💰</div>
+            <div class="wp-text">
+              <h4 data-ru="Оптовые цены" data-uz="Ulgurji narxlar">Оптовые цены</h4>
+              <p data-ru="Прямо со склада без посредников — конкурентная цена на каждую позицию." data-uz="To'g'ridan-to'g'ri ombor — vositachilarsiz.">Прямо со склада без посредников — конкурентная цена на каждую позицию.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact-s">
+  <div class="contact-wrap">
+    <div class="section-tag reveal" data-ru="Сотрудничество" data-uz="Hamkorlik">Сотрудничество</div>
+    <h2 class="reveal" data-ru="Отправьте запрос на экспорт" data-uz="Eksport bo'yicha so'rov yuboring">Отправьте запрос на экспорт</h2>
+    <p class="reveal" style="color:var(--muted);margin-top:10px;max-width:440px;margin-left:auto;margin-right:auto"
+       data-ru="Пришлите список нужных запчастей — в течение 2 часов ответим с ценой и сроками." 
+       data-uz="Kerakli zapchastlar ro'yxatini yuboring — 2 soatda javob beramiz.">
+      Пришлите список нужных запчастей — в течение 2 часов ответим с ценой и сроками.
+    </p>
+    <div class="cg reveal">
+      <div class="ci">
+        <div class="ci-icon">📞</div>
+        <div class="ci-lbl" data-ru="Телефон / WhatsApp" data-uz="Telefon / WhatsApp">Телефон / WhatsApp</div>
+        <div class="ci-val">+998 XX XXX XX XX</div>
+      </div>
+      <div class="ci">
+        <div class="ci-icon">✈️</div>
+        <div class="ci-lbl">Telegram</div>
+        <div class="ci-val">@tashcom_export</div>
+      </div>
+      <div class="ci">
+        <div class="ci-icon">📍</div>
+        <div class="ci-lbl" data-ru="Адрес склада" data-uz="Ombor manzili">Адрес склада</div>
+        <div class="ci-val" data-ru="ул. Беларок 49, Сергелийский р-н, Ташкент" data-uz="Belaroq ko'chasi 49, Sirg'ali, Toshkent">ул. Беларок 49, Сергелийский р-н, Ташкент</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:14px;justify-content:center;margin-top:44px;flex-wrap:wrap" class="reveal">
+      <button class="btn-p btn-zayavka" onclick="openZayavka()">📋 Оставить заявку</button>
+      <a href="tel:+998000000000" class="btn-g" data-ru="📞 Позвонить" data-uz="📞 Qo'ng'iroq qiling">📞 Позвонить</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">Tash<span>com</span></div>
+  <div data-ru='© 2026 ООО "TASHCOM" · ИНН 309591399 · Ташкент, Узбекистан' data-uz='© 2026 "TASHCOM" MCHJ · STIR 309591399 · Toshkent, O'zbekiston'>
+    © 2026 ООО «TASHCOM» · ИНН 309591399 · Ташкент, Узбекистан
+  </div>
+  <div style="font-size:.72rem" data-ru="Все права защищены" data-uz="Barcha huquqlar himoyalangan">Все права защищены</div>
+</footer>
+
+<script>
+// ── CANVAS ──
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+let W,H,pts=[];const CELL=65;let mx=-999,my=-999;
+function resize(){
+  W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;
+  pts=[];
+  const c=Math.ceil(W/CELL)+1,r=Math.ceil(H/CELL)+1;
+  for(let i=0;i<r;i++)for(let j=0;j<c;j++)
+    pts.push({x:j*CELL,y:i*CELL,o:Math.random()*.25+.03});
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='rgba(0,191,255,0.05)';ctx.lineWidth=1;
+  const c=Math.ceil(W/CELL)+1,r=Math.ceil(H/CELL)+1;
+  for(let i=0;i<c;i++){ctx.beginPath();ctx.moveTo(i*CELL,0);ctx.lineTo(i*CELL,H);ctx.stroke()}
+  for(let i=0;i<r;i++){ctx.beginPath();ctx.moveTo(0,i*CELL);ctx.lineTo(W,i*CELL);ctx.stroke()}
+  for(const p of pts){
+    const d=Math.hypot(p.x-mx,p.y-my);
+    const g=Math.max(0,1-d/220);
+    ctx.beginPath();ctx.arc(p.x,p.y,g>.08?2:1.2,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,191,255,${Math.min(p.o+g*.75,.9)})`;ctx.fill();
+  }
+  requestAnimationFrame(draw);
+}
+window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+window.addEventListener('resize',resize);
+resize();draw();
+
+// ── NAV ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ── REVEAL ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}});
+},{threshold:.1});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
+
+// ── COUNT UP ──
+function countUp(el,t,dur=1500){
+  let s=null;
+  const step=ts=>{
+    if(!s)s=ts;
+    const p=Math.min((ts-s)/dur,1);
+    el.textContent=Math.floor(p*t).toLocaleString()+'+';
+    if(p<1)requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+const cobs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){const t=+e.target.dataset.target;if(t)countUp(e.target,t);cobs.unobserve(e.target)}
+  });
+},{threshold:.5});
+document.querySelectorAll('[data-target]').forEach(el=>cobs.observe(el));
+
+// ── 3D TILT ──
+// tilt и smooth scroll перенесены в DOMContentLoaded ниже
+
+// ── все DOM-зависимые функции запускаем после загрузки DOM ──
+// Глобальные функции (вызываются из onclick атрибутов — должны быть глобальными)
+let _chatOpen = false;
+let _chatHistory = [];
+
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === lang.toUpperCase()));
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+    el.textContent = el.getAttribute('data-' + lang);
+  });
+  document.documentElement.lang = lang;
+}
+
+function openZayavka() {
+  const m = document.getElementById('zayavka-modal');
+  if (m) m.classList.add('open');
+}
+function closeZayavka() {
+  const m = document.getElementById('zayavka-modal');
+  if (m) m.classList.remove('open');
+}
+
+function toggleChat() {
+  _chatOpen = !_chatOpen;
+  const box = document.getElementById('chat-box');
+  const fab = document.getElementById('chat-fab');
+  if (box) box.classList.toggle('open', _chatOpen);
+  if (fab) fab.classList.toggle('active', _chatOpen);
+  if (_chatOpen && _chatHistory.length === 0) {
+    addBotMsg('Здравствуйте! Я AI-ассистент Tashcom 🚛\nЗадайте вопрос об экспорте автозапчастей, доставке или условиях сотрудничества.');
+  }
+}
+
+function sendChatMsgBtn() { sendChatMsg(); }
+
+// ── TELEGRAM CONFIG ──
+// Telegram config — backend da (Vercel env variables)
+// TELEGRAM_CHAT_ID — backend da
+
+const SYSTEM_PROMPT = `Ты — AI-ассистент компании Tashcom (ООО «TASHCOM», ИНН 309591399, Ташкент, Узбекистан).
+Tashcom занимается оптовым экспортом автомобильных запчастей, деталей и узлов из Узбекистана в страны СНГ: Казахстан, Кыргызстан, Таджикистан, Туркменистан, Россия.
+На складе более 5000 позиций. Доставка 3–7 рабочих дней. Только оптовые поставки (B2B).
+Документы: экспортная декларация, инвойс, CMR, сертификаты происхождения — всё берёт Tashcom.
+Оплата: SWIFT, наличная валюта, тенге, сумы.
+Адрес: ул. Беларок 49, Сергелийский р-н, Ташкент.
+Контакты: Telegram @tashcom_export, телефон уточняйте у менеджера.
+Отвечай кратко, профессионально, на том языке на котором пишет пользователь (русский или узбекский).
+Если спрашивают конкретную цену или наличие — скажи что уточнишь у менеджера и предложи оставить заявку.
+Не придумывай цены. Будь дружелюбным и помогай клиентам.`;
+
+function addBotMsg(text) {
+  const msgs = document.getElementById('chat-msgs');
+  if (!msgs) return;
+  const d = document.createElement('div');
+  d.className = 'cm bot';
+  d.innerHTML = `<div class="cm-avatar">T</div><div class="cm-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function addUserMsg(text) {
+  const msgs = document.getElementById('chat-msgs');
+  if (!msgs) return;
+  const d = document.createElement('div');
+  d.className = 'cm user';
+  d.innerHTML = `<div class="cm-bubble">${text}</div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function addTyping() {
+  const msgs = document.getElementById('chat-msgs');
+  if (!msgs) return;
+  const d = document.createElement('div');
+  d.className = 'cm bot'; d.id = 'typing-ind';
+  d.innerHTML = `<div class="cm-avatar">T</div><div class="cm-bubble typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function removeTyping() { const t = document.getElementById('typing-ind'); if (t) t.remove(); }
+
+async function sendChatMsg() { // SECURE: backend orqali
+  const inp = document.getElementById('chat-inp');
+  if (!inp) return;
+  const text = inp.value.trim();
+  if (!text) return;
+
+  inp.value = '';
+  addUserMsg(text);
+  _chatHistory.push({ role: 'user', content: text });
+  addTyping();
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 600,
+        system: SYSTEM_PROMPT,
+        messages: _chatHistory.slice(-10)
+      })
+    });
+    const data = await res.json();
+    removeTyping();
+    if (data.error) {
+      if (data.error.type === 'authentication_error') {
+        addBotMsg('❌ API key noto\'g\'ri. Qaytadan kiriting.');
+        localStorage.removeItem('tc_api_key');
+        return;
+      }
+      throw new Error(data.error.message);
+    }
+    const reply = data.content?.[0]?.text || 'Произошла ошибка. Напишите нам: @tashcom_export';
+    _chatHistory.push({ role: 'assistant', content: reply });
+    addBotMsg(reply);
+  } catch (err) {
+    removeTyping();
+    addBotMsg('Хорошо, соединяю вас с менеджером. Напишите напрямую: @tashcom_export или оставьте заявку на сайте.');
+  }
+}
+
+  localStorage.setItem('tc_api_key', key);
+    addBotMsg('✅ API key saqlandi! Endi savolingizni yozing.');
+}
+
+async function sendToTelegram(data) {
+  // XAVFSIZ: Token backend da yashiringan
+  try {
+    const res = await fetch('/api/zayavka', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+// ── DOM READY — event listeners ──
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ESC closes modal
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeZayavka(); });
+
+  // Zayavka form submit
+  const form = document.getElementById('zayavka-form');
+  if (form) {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn = this.querySelector('.zf-submit');
+      btn.textContent = 'Отправляем...'; btn.disabled = true;
+      const data = {
+        name: this.name.value.trim(),
+        company: this.company.value.trim(),
+        phone: this.phone.value.trim(),
+        country: this.country.value,
+        message: this.message.value.trim()
+      };
+      const ok = await sendToTelegram(data);
+      if (ok) {
+        document.getElementById('zf-body').style.display = 'none';
+        document.getElementById('zf-success').style.display = 'flex';
+      } else {
+        // Demo mode — token not set
+        document.getElementById('zf-body').style.display = 'none';
+        document.getElementById('zf-success').style.display = 'flex';
+      }
+    });
+  }
+
+  // Chat Enter key
+  const chatInp = document.getElementById('chat-inp');
+  if (chatInp) {
+    chatInp.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMsg(); }
+    });
+  }
+
+  // 3D Tilt
+  document.querySelectorAll('.vcard,.ccard,.step,.wp').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5;
+      const y = (e.clientY - r.top) / r.height - .5;
+      card.style.transform = `perspective(700px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); }
+    });
+  });
+
+  // Lang switcher
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.textContent.toLowerCase()));
+  });
+
+}); // end DOMContentLoaded
+</script>
+
+<!-- ══════════════════════════════════════════
+     ZAYAVKA MODAL
+══════════════════════════════════════════ -->
+<style>
+/* ZAYAVKA BUTTON in NAV & hero */
+.btn-zayavka{
+  background:linear-gradient(135deg,var(--cyan),#007BB8);
+  color:#061020;padding:14px 36px;border-radius:10px;
+  font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;
+  border:none;cursor:pointer;
+  transition:transform .15s,box-shadow .2s;
+  box-shadow:0 4px 24px rgba(0,191,255,.28)
+}
+.btn-zayavka:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,191,255,.42)}
+
+/* MODAL OVERLAY */
+.modal-overlay{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(5,10,20,.85);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{
+  background:linear-gradient(145deg,#131D35,#0F1829);
+  border:1px solid var(--border);border-radius:22px;
+  padding:48px 44px;width:100%;max-width:560px;
+  position:relative;
+  transform:translateY(20px);transition:transform .3s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 40px 100px rgba(0,0,0,.6)
+}
+.modal-overlay.open .modal-box{transform:translateY(0)}
+.modal-close{
+  position:absolute;top:18px;right:18px;
+  background:rgba(255,255,255,.07);border:none;
+  color:var(--muted);width:32px;height:32px;border-radius:50%;
+  font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,color .2s
+}
+.modal-close:hover{background:rgba(255,255,255,.14);color:var(--text)}
+.modal-tag{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px}
+.modal-title{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:6px;letter-spacing:-.02em}
+.modal-sub{font-size:.85rem;color:var(--muted);margin-bottom:28px}
+
+/* FORM */
+.zf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.zf-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.zf-group label{font-size:.75rem;font-weight:600;color:var(--light);letter-spacing:.04em}
+.zf-group input,.zf-group select,.zf-group textarea{
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border2);
+  border-radius:10px;padding:12px 14px;
+  color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;
+  outline:none;transition:border-color .2s,background .2s;
+  width:100%
+}
+.zf-group input::placeholder,.zf-group textarea::placeholder{color:var(--muted)}
+.zf-group input:focus,.zf-group select:focus,.zf-group textarea:focus{
+  border-color:var(--cyan);background:rgba(0,191,255,.05)
+}
+.zf-group select option{background:#131D35;color:var(--text)}
+.zf-group textarea{resize:vertical;min-height:90px}
+.zf-submit{
+  width:100%;padding:14px;border:none;border-radius:10px;
+  background:var(--cyan);color:#061020;
+  font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;
+  cursor:pointer;transition:opacity .2s,transform .15s;margin-top:4px
+}
+.zf-submit:hover{opacity:.85;transform:translateY(-1px)}
+.zf-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* SUCCESS */
+#zf-success{
+  display:none;flex-direction:column;align-items:center;
+  text-align:center;padding:20px 0;gap:16px
+}
+.zf-success-icon{font-size:3.5rem}
+.zf-success-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700}
+.zf-success-sub{color:var(--muted);font-size:.9rem;max-width:340px}
+
+/* ── AI CHAT WIDGET ── */
+/* FAB */
+#chat-fab{
+  position:fixed;bottom:28px;right:28px;z-index:8000;
+  width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),#007BB8);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 28px rgba(0,191,255,.4);
+  transition:transform .2s,box-shadow .2s;
+  color:#061020
+}
+#chat-fab:hover{transform:scale(1.08);box-shadow:0 10px 36px rgba(0,191,255,.55)}
+#chat-fab.active{background:linear-gradient(135deg,#555,#333)}
+#chat-fab svg{width:26px;height:26px;transition:opacity .2s}
+#chat-fab .ico-chat{position:absolute}
+#chat-fab .ico-close{position:absolute;opacity:0}
+#chat-fab.active .ico-chat{opacity:0}
+#chat-fab.active .ico-close{opacity:1}
+
+/* Notification dot */
+#chat-fab::before{
+  content:'';position:absolute;top:4px;right:4px;
+  width:12px;height:12px;border-radius:50%;
+  background:#22CC66;border:2px solid var(--bg);
+  animation:pulse2 2s infinite
+}
+@keyframes pulse2{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+
+/* CHAT BOX */
+#chat-box{
+  position:fixed;bottom:96px;right:28px;z-index:7999;
+  width:360px;
+  background:linear-gradient(160deg,#0F1829,#131D35);
+  border:1px solid var(--border);border-radius:20px;
+  box-shadow:0 24px 64px rgba(0,0,0,.6);
+  display:flex;flex-direction:column;
+  transform:translateY(16px) scale(.96);
+  opacity:0;pointer-events:none;
+  transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .25s;
+  max-height:520px
+}
+#chat-box.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all}
+
+.chat-header{
+  padding:16px 18px;border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;gap:12px;flex-shrink:0
+}
+.chat-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),#007BB8);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;
+  color:#061020;flex-shrink:0
+}
+.chat-header-info h4{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;margin-bottom:1px}
+.chat-header-info p{font-size:.72rem;color:#22CC66}
+.chat-header-info p::before{content:'● ';font-size:.6rem}
+
+#chat-msgs{
+  flex:1;overflow-y:auto;padding:16px;
+  display:flex;flex-direction:column;gap:12px;
+  min-height:200px
+}
+#chat-msgs::-webkit-scrollbar{width:3px}
+#chat-msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* messages */
+.cm{display:flex;gap:8px;align-items:flex-end}
+.cm.user{flex-direction:row-reverse}
+.cm-avatar{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--cyan),#005A8A);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:700;color:#061020
+}
+.cm-bubble{
+  max-width:240px;padding:10px 13px;border-radius:14px;
+  font-size:.82rem;line-height:1.5;word-break:break-word
+}
+.cm.bot .cm-bubble{
+  background:rgba(255,255,255,.07);border:1px solid var(--border2);
+  border-bottom-left-radius:4px;color:var(--text)
+}
+.cm.user .cm-bubble{
+  background:var(--cyan);color:#061020;font-weight:500;
+  border-bottom-right-radius:4px
+}
+
+/* typing */
+.typing{display:flex;gap:4px;align-items:center;padding:12px 14px}
+.typing span{
+  width:6px;height:6px;border-radius:50%;background:var(--cyan);opacity:.6;
+  animation:bounce .9s infinite
+}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+
+/* input row */
+.chat-input-row{
+  padding:12px 14px;border-top:1px solid var(--border2);
+  display:flex;gap:8px;align-items:center;flex-shrink:0
+}
+#chat-inp{
+  flex:1;background:rgba(255,255,255,.06);
+  border:1px solid var(--border2);border-radius:10px;
+  padding:9px 12px;color:var(--text);font-family:'Inter',sans-serif;font-size:.84rem;
+  outline:none;transition:border-color .2s;resize:none;height:38px
+}
+#chat-inp::placeholder{color:var(--muted)}
+#chat-inp:focus{border-color:var(--cyan)}
+#chat-send{
+  width:36px;height:36px;border-radius:9px;border:none;flex-shrink:0;
+  background:var(--cyan);color:#061020;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .2s,transform .15s
+}
+#chat-send:hover{opacity:.85;transform:scale(1.05)}
+.chat-footer{
+  padding:8px 14px;text-align:center;
+  font-size:.65rem;color:var(--muted);border-top:1px solid var(--border2);flex-shrink:0
+}
+
+/* Zayavka quick action inside chat */
+.chat-quick-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,191,255,.1);border:1px solid var(--border);
+  border-radius:8px;padding:7px 12px;font-size:.76rem;
+  color:var(--cyan);cursor:pointer;margin-top:8px;
+  transition:background .2s
+}
+.chat-quick-btn:hover{background:rgba(0,191,255,.18)}
+
+@media(max-width:480px){
+  #chat-box{width:calc(100vw - 32px);right:16px;bottom:88px}
+  #chat-fab{bottom:20px;right:20px}
+}
+</style>
+
+<!-- ZAYAVKA MODAL HTML -->
+<div class="modal-overlay" id="zayavka-modal" onclick="if(event.target===this)closeZayavka()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeZayavka()">✕</button>
+    <div class="modal-tag">Партнёрство</div>
+    <div class="modal-title">Оставить заявку</div>
+    <p class="modal-sub">Заполните форму — менеджер свяжется в течение 2 часов</p>
+
+    <div id="zf-body">
+      <form id="zayavka-form" autocomplete="off">
+        <div class="zf-row">
+          <div class="zf-group">
+            <label>Ваше имя *</label>
+            <input name="name" placeholder="Иван Иванов" required/>
+          </div>
+          <div class="zf-group">
+            <label>Компания</label>
+            <input name="company" placeholder="ООО «Название»"/>
+          </div>
+        </div>
+        <div class="zf-row">
+          <div class="zf-group">
+            <label>Телефон / WhatsApp *</label>
+            <input name="phone" placeholder="+7 / +998 ..." required/>
+          </div>
+          <div class="zf-group">
+            <label>Страна *</label>
+            <select name="country" required>
+              <option value="">Выберите страну</option>
+              <option>🇰🇿 Казахстан</option>
+              <option>🇰🇬 Кыргызстан</option>
+              <option>🇹🇯 Таджикистан</option>
+              <option>🇹🇲 Туркменистан</option>
+              <option>🇷🇺 Россия</option>
+              <option>Другая</option>
+            </select>
+          </div>
+        </div>
+        <div class="zf-group">
+          <label>Что нужно? (список запчастей, объём) *</label>
+          <textarea name="message" placeholder="Например: тормозные диски Toyota Camry — 50 шт., амортизаторы — 30 шт. ..." required></textarea>
+        </div>
+        <button type="submit" class="zf-submit">Отправить заявку →</button>
+      </form>
+    </div>
+
+    <div id="zf-success">
+      <div class="zf-success-icon">✅</div>
+      <div class="zf-success-title">Заявка отправлена!</div>
+      <p class="zf-success-sub">Наш менеджер получил вашу заявку в Telegram и свяжется с вами в течение 2 часов.</p>
+      <button class="btn-zayavka" onclick="closeZayavka()" style="margin-top:8px">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI CHAT FAB -->
+<button id="chat-fab" onclick="toggleChat()" title="AI Ассистент Tashcom">
+  <!-- chat icon -->
+  <svg class="ico-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <!-- close icon -->
+  <svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+</button>
+
+<!-- AI CHAT BOX -->
+<div id="chat-box">
+  <div class="chat-header">
+    <div class="chat-avatar">T</div>
+    <div class="chat-header-info">
+      <h4>Tashcom AI Ассистент</h4>
+      <p>Онлайн · Отвечает мгновенно</p>
+    </div>
+  </div>
+  <div id="chat-msgs"></div>
+  <div class="chat-input-row">
+    <input id="chat-inp" placeholder="Задайте вопрос..."/>
+    <button id="chat-send" onclick="sendChatMsg()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+  <div class="chat-footer">Powered by Claude AI · Tashcom © 2026</div>
+</div>
+
+</body>
+</html>
