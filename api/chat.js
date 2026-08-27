@@ -2,8 +2,7 @@
 // API key faqat shu yerda, frontend ko'rmaydi
 
 export default async function handler(req, res) {
-  // CORS — faqat o'z domeningizdan
-  res.setHeader('Access-Control-Allow-Origin', '*'); // deploy qilgach o'z domeningizni yozing
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -15,9 +14,6 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'messages required' });
   }
 
-  // Rate limiting — bir IP dan ko'p so'rov oldini olish
-  // (Vercel da oddiy in-memory, production uchun Redis tavsiya)
-  
   const SYSTEM_PROMPT = `Ты — AI-ассистент компании Tashcom (ООО «TASHCOM», ИНН 309591399, Ташкент, Узбекистан).
 Tashcom занимается оптовым экспортом автомобильных запчастей, деталей и узлов из Узбекистана в страны СНГ: Казахстан, Кыргызстан, Таджикистан, Туркменистан, Россия.
 На складе более 5000 позиций. Доставка 3–7 рабочих дней. Только оптовые поставки (B2B).
@@ -25,38 +21,48 @@ Tashcom занимается оптовым экспортом автомоби�
 Оплата: SWIFT, наличная валюта, тенге, сумы.
 Адрес: ул. Беларок 49, Сергелийский р-н, Ташкент.
 Контакты: Telegram @tashcom_export.
-Отвечай кратко, профессионально, на том языке на котором пишет пользователь.
-Если спрашивают цену или наличие — скажи что уточнишь у менеджера и предложи оставить заявку.
-Не придумывай цены. Будь дружелюбным.`;
+
+ВАЖНО: Отвечай ТОЛЬКО на темы связанные с автозапчастями, экспортом, доставкой, таможней, логистикой, автомобилями.
+На вопросы не по теме (спорт, политика, знаменитости, погода) отвечай: "Я специализируюсь только на автозапчастях и экспорте. Задайте вопрос по нашей теме."
+Отвечай кратко (2-4 предложения), профессионально, на языке пользователя (русский или узбекский).
+Если спрашивают цену или наличие — скажи что менеджер уточнит и предложи оставить заявку на сайте.
+Не придумывай цены.`;
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    console.error('ANTHROPIC_API_KEY not set');
+    return res.status(500).json({ error: 'API key not configured' });
+  }
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY, // Vercel Environment Variable
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001', // tez va arzon model
+        model: 'claude-haiku-4-5',
         max_tokens: 500,
         system: SYSTEM_PROMPT,
-        messages: messages.slice(-8) // oxirgi 8 xabar
+        messages: messages.slice(-8)
       })
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const err = await response.json();
-      console.error('Anthropic error:', err);
-      return res.status(500).json({ error: 'AI service error' });
+      console.error('Anthropic API error:', JSON.stringify(data));
+      return res.status(500).json({ error: 'AI error', detail: data.error?.message });
     }
 
-    const data = await response.json();
     const reply = data.content?.[0]?.text || 'Xato yuz berdi.';
     return res.status(200).json({ reply });
 
   } catch (error) {
-    console.error('Chat error:', error);
-    return res.status(500).json({ error: 'Server error' });
+    console.error('Chat fetch error:', error.message);
+    return res.status(500).json({ error: error.message });
   }
 }
+
