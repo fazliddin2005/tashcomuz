@@ -9,10 +9,9 @@ tashcom-vercel/
 │   ├── chat.js             ← AI chat (Claude Haiku)
 │   ├── zayavka.js          ← Zayavka → Telegram
 │   ├── webhook.js          ← Telegram bot (24/7 AI)
-│   └── setup-webhook.js    ← Webhook ro'yxatdan o'tkazish
+│   └── setup-webhook.js    ← Webhook sozlash
 ├── vercel.json
-├── package.json
-└── .env.example
+└── package.json
 ```
 
 ## Deploy qilish
@@ -21,30 +20,22 @@ tashcom-vercel/
 ```bash
 git init
 git add .
-git commit -m "Tashcom initial deploy"
-git remote add origin https://github.com/USERNAME/tashcom.git
-git push -u origin main
+git commit -m "initial deploy"
+git push
 ```
 
 ### 2. Vercel ga ulash
-1. vercel.com → "New Project" → GitHub repo tanlang
-2. "Deploy" bosing
+vercel.com → New Project → GitHub repo → Deploy
 
-### 3. Environment Variables (Vercel Dashboard → Settings → Env Vars)
+### 3. Environment Variables
+Vercel Dashboard → Settings → Environment Variables:
 ```
-ANTHROPIC_API_KEY    = sk-ant-...
-TELEGRAM_BOT_TOKEN   = 8832279048:AAGTRH0Z4kc1IMN_S2Ys8T9b0saNmXCvNW4
-TELEGRAM_CHAT_ID     = 1519856274
+ANTHROPIC_API_KEY    = [Anthropic console dan oling]
+TELEGRAM_BOT_TOKEN   = [BotFather dan oling]
+TELEGRAM_CHAT_ID     = [Sizning Telegram ID]
 ```
 
-### 4. Telegram Webhook ulash (DEPLOY DAN KEYIN 1 MARTA)
-Brauzerda oching:
+### 4. Telegram Webhook (1 marta)
 ```
 https://sizning-domen.vercel.app/api/setup-webhook
 ```
-✅ degan javob kelsa — bot 24/7 ishlaydi!
-
-## Ishlash tartibi
-- **Sayt chat** → `/api/chat` → Claude Haiku → javob
-- **Zayavka formasi** → `/api/zayavka` → Telegram sizga
-- **@tashcombot ga yozsa** → `/api/webhook` → Claude Haiku → foydalanuvchiga javob + sizga bildiruv
