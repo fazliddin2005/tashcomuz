@@ -713,6 +713,7 @@ footer{border-top:1px solid var(--border2);padding:28px 64px;display:flex;align-
     <li><a href="#how-s" data-ru="Как работаем" data-uz="Qanday ishlaydi">Как работаем</a></li>
     <li><a href="#partners" data-ru="Партнёры" data-uz="Hamkorlar">Партнёры</a></li>
     <li><a href="#why" data-ru="О нас" data-uz="Biz haqimizda">О нас</a></li>
+    <li><a href="/order.html" style="background:linear-gradient(135deg,#22CC66,#1aaa55);color:#fff;padding:9px 22px;border-radius:8px;font-weight:600;font-size:.82rem;text-decoration:none;transition:opacity .2s,transform .15s;display:inline-block" onmouseover="this.style.opacity='.85';this.style.transform='translateY(-1px)'" onmouseout="this.style.opacity='1';this.style.transform=''" data-ru="🛒 Оформить заказ" data-uz="🛒 Buyurtma berish">🛒 Оформить заказ</a></li>
     <li><a href="#contact-s" class="nav-cta" data-ru="Партнёрство" data-uz="Hamkorlik">Партнёрство</a></li>
   </ul>
 </nav>
@@ -761,8 +762,9 @@ footer{border-top:1px solid var(--border2);padding:28px 64px;display:flex;align-
       <div class="flag-pill">🇷🇺 Россия</div>
     </div>
     <div class="hero-btns">
-      <button class="btn-p" onclick="openZayavka()">📋 Оставить заявку</button>
-      <a href="#how-s" class="btn-g" data-ru="Как это работает?" data-uz="Qanday ishlaydi?">Как это работает?</a>
+      <a href="/order.html" class="btn-p" style="text-decoration:none;background:linear-gradient(135deg,#22CC66,#0099CC)" data-ru="🛒 Оформить заказ" data-uz="🛒 Buyurtma berish">🛒 Оформить заказ</a>
+      <button class="btn-p" onclick="openZayavka()" data-ru="📋 Быстрая заявка" data-uz="📋 Tezkor ariza">📋 Быстрая заявка</button>
+      <a href="#how-s" class="btn-g" data-ru="Как работаем?" data-uz="Qanday ishlaydi?">Как работаем?</a>
     </div>
       <div class="scroll-indicator" onclick="document.getElementById('route-s').scrollIntoView({behavior:'smooth'})">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -997,6 +999,23 @@ footer{border-top:1px solid var(--border2);padding:28px 64px;display:flex;align-
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- ORDER CTA BANNER -->
+<div style="background:linear-gradient(135deg,rgba(0,191,255,.08),rgba(34,204,102,.06));border-top:1px solid rgba(0,191,255,.15);border-bottom:1px solid rgba(0,191,255,.15);padding:60px 64px;text-align:center">
+  <div style="max-width:700px;margin:0 auto">
+    <div class="section-tag anim">Онлайн заказ</div>
+    <h2 class="anim" style="margin-bottom:14px">Оформите заказ прямо сейчас</h2>
+    <p class="anim" style="color:var(--muted);margin-bottom:32px;font-size:1rem">Выберите марку, модель авто → нужные запчасти → укажите количество. Менеджер подтвердит цену в течение 2 часов.</p>
+    <a href="/order.html" class="anim" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#22CC66,#0099CC);color:#fff;padding:16px 40px;border-radius:12px;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;transition:transform .2s,box-shadow .2s;box-shadow:0 6px 24px rgba(34,204,102,.25)" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 36px rgba(34,204,102,.4)'" onmouseout="this.style.transform='';this.style.boxShadow='0 6px 24px rgba(34,204,102,.25)'">
+      🛒 Перейти к оформлению заказа →
+    </a>
+    <div style="display:flex;gap:20px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+      <span style="font-size:.78rem;color:var(--muted)">✅ 5000+ запчастей в базе</span>
+      <span style="font-size:.78rem;color:var(--muted)">⚡ Ответ за 2 часа</span>
+      <span style="font-size:.78rem;color:var(--muted)">🔒 Безопасно</span>
+    </div>
   </div>
 </div>
 
