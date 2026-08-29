@@ -235,14 +235,7 @@ textarea.form-inp{resize:vertical;min-height:80px}
             <div class="form-label">Марка *</div>
             <select id="car-make" onchange="onMakeChange()">
               <option value="">Выберите марку</option>
-              <option>Toyota</option><option>Hyundai</option>
               <option>GM Uzbekistan (Cobalt, Nexia, Gentra...)</option>
-              <option>Chevrolet</option><option>Daewoo / Ravon</option>
-              <option>Kia</option><option>Nissan</option><option>Mercedes-Benz</option>
-              <option>BMW</option><option>Volkswagen</option><option>Honda</option>
-              <option>Ford</option><option>Mitsubishi</option>
-              <option>Lada / ВАЗ</option><option>GAZ / ГАЗ</option><option>ZIL / ЗИЛ</option>
-              <option>КамАЗ</option><option>МАЗ</option><option>Isuzu</option>
               <option>Другая марка</option>
             </select>
           </div>
@@ -439,26 +432,7 @@ textarea.form-inp{resize:vertical;min-height:80px}
 // DATA
 // ════════════════════════════════════════
 const CAR_MODELS = {
-  'Toyota':['Camry','Corolla','Land Cruiser','RAV4','Hilux','HiAce','Prado','Fortuner','Yaris','Avensis'],
-  'Hyundai':['Sonata','Elantra','Tucson','Santa Fe','Accent','Creta','Porter','HD78','HD120'],
-  'Chevrolet':['Cobalt','Nexia 3','Gentra','Lacetti','Malibu','Captiva','Equinox','Tracker','Spark','Aveo','Tahoe','TrailBlazer'],
-  'GM Uzbekistan (Cobalt, Nexia, Gentra...)':['Cobalt','Nexia 3 (Lacetti)','Gentra','Damas','Labo','Matiz','Spark (M300)','Captiva','Malibu','Equinox','Tracker'],
-  'Daewoo / Ravon':['Nexia','Nexia 2','Matiz','Damas','Labo','Espero','Leganza','Nubira','R2 (Nexia 3)','R3 (Cobalt)','R4 (Malibu)'],
-  'Kia':['Sportage','Rio','Cerato','Sorento','Mohave','Bongo','K2700','Optima'],
-  'Nissan':['Patrol','Navara','X-Trail','Almera','Micra','Qashqai','Pathfinder','Cabstar'],
-  'Mercedes-Benz':['Sprinter','Actros','Arocs','C-Class','E-Class','G-Class','Vito','Axor'],
-  'BMW':['3 Series','5 Series','7 Series','X5','X3','X6'],
-  'Volkswagen':['Passat','Golf','Tiguan','Transporter','Crafter','Polo'],
-  'Honda':['Accord','Civic','CR-V','Pilot','Odyssey'],
-  'Ford':['Focus','Transit','Ranger','F-150','Explorer','Fusion'],
-  'Mitsubishi':['Pajero','L200','Outlander','Galant','Canter','Fuso'],
-  'Daewoo':['Nexia','Lacetti','Matiz','Espero','Leganza'],
-  'Lada / ВАЗ':['2101','2105','2107','2110','2114','2115','Priora','Granta','Niva','Largus'],
-  'GAZ / ГАЗ':['Газель','Газель Next','Газель Бизнес','ГАЗ-3307','ГАЗ-53','Волга'],
-  'ZIL / ЗИЛ':['ЗИЛ-130','ЗИЛ-131','ЗИЛ-133','ЗИЛ-5301'],
-  'КамАЗ':['5320','5511','55111','65115','6520','43118','44108'],
-  'МАЗ':['МАЗ-500','МАЗ-5335','МАЗ-5440','МАЗ-6430','МАЗ-4370'],
-  'Isuzu':['NQR','NMR','NPR','ELF','Forward','Giga','D-Max'],
+  'GM Uzbekistan (Cobalt, Nexia, Gentra...)':['Cobalt','Nexia 3 (Lacetti)','Gentra','Damas','Labo','Matiz','Spark','Captiva','Malibu','Equinox','Tracker'],
   'Другая марка':['Другая модель']
 };
 
