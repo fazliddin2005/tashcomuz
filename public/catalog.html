@@ -668,8 +668,9 @@ function updateCartUI() {
 }
 
 function goOrder() {
-  const parts = encodeURIComponent(JSON.stringify(Object.keys(cart)));
-  window.location.href = `/order.html?parts=${parts}`;
+  // localStorage ga saqlaymiz
+  localStorage.setItem('tashcom_cart', JSON.stringify(cart));
+  window.location.href = '/order.html';
 }
 
 function filterParts() {

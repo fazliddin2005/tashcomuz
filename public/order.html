@@ -278,6 +278,25 @@ textarea.form-inp{resize:vertical;min-height:80px}
 
     <!-- STEP 2: Parts -->
     <div id="step-2" style="display:none">
+      <!-- Mini avto qo'shish (catalog dan kelganda) -->
+      <div id="mini-car-add" style="background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:18px 20px;margin-bottom:16px">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;margin-bottom:12px;color:var(--text)">🚗 Qaysi avtomobil uchun? (ixtiyoriy)</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <select id="mini-make" onchange="miniMakeChange()" style="flex:1;min-width:140px;background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:.85rem;outline:none">
+            <option value="">Marка</option>
+            <option>GM Uzbekistan (Cobalt, Nexia, Gentra...)</option>
+            <option>Другая марка</option>
+          </select>
+          <select id="mini-model" style="flex:1;min-width:120px;background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:.85rem;outline:none">
+            <option value="">Модель</option>
+          </select>
+          <select id="mini-year" style="width:100px;background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:.85rem;outline:none">
+            <option value="">Йил</option>
+          </select>
+          <button onclick="addMiniCar()" style="background:rgba(0,191,255,.15);border:1px solid var(--border);border-radius:8px;color:var(--cyan);padding:9px 16px;cursor:pointer;font-size:.85rem;font-weight:600;white-space:nowrap">+ Qo'shish</button>
+        </div>
+        <div id="mini-cars-tags" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>
+      </div>
       <div class="section-card">
         <div class="section-title"><span>🔍</span> Поиск запчасти</div>
         <div class="search-wrap">
