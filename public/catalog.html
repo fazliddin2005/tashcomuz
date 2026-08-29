@@ -1643,9 +1643,14 @@ function renderGrid() {
           <span style="color:${mc.color};font-weight:600">${p.model}</span>
           <span style="color:var(--muted)">${mc.years}</span>
         </div>
-        <button class="pcard-add" onclick="toggleCart('${key.replace(/'/g,"\'")}','${p.cat}','${p.model}','${p.name.replace(/'/g,"\'")}')">
-          ${isAdded ? '✓ Добавлено' : '+ В заявку'}
-        </button>
+        ${isAdded ? `
+        <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+          <button onclick="changeQtyCard('${key.replace(/'/g,"\'")}', -1)" style="width:30px;height:30px;border-radius:8px;background:var(--card);border:1px solid var(--border2);color:var(--text);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s" onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border2)'">−</button>
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--cyan);min-width:24px;text-align:center">${cart[key].qty}</span>
+          <button onclick="changeQtyCard('${key.replace(/'/g,"\'")}', 1)" style="width:30px;height:30px;border-radius:8px;background:var(--card);border:1px solid var(--border2);color:var(--text);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s" onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border2)'">+</button>
+          <button onclick="toggleCart('${key.replace(/'/g,"\'")}','${p.cat}','${p.model}','${p.name.replace(/'/g,"\'")}")" style="margin-left:auto;background:rgba(34,204,102,.12);border:1px solid rgba(34,204,102,.3);border-radius:8px;color:var(--green);padding:6px 10px;cursor:pointer;font-size:.78rem;font-weight:600;flex:1;min-width:0;transition:all .2s">✓ Добавлено</button>
+        </div>` : `
+        <button class="pcard-add" onclick="toggleCart('${key.replace(/'/g,"\'")}','${p.cat}','${p.model}','${p.name.replace(/'/g,"\'")}')">+ В заявку</button>`}
       </div>
     </div>`;
   }).join('');
@@ -1674,6 +1679,14 @@ function updateCartUI() {
   const num = document.getElementById('cart-count-num');
   float.style.display = count > 0 ? 'block' : 'none';
   num.textContent = count;
+}
+
+function changeQtyCard(key, delta) {
+  if (!cart[key]) return;
+  const newQty = Math.max(1, (cart[key].qty || 1) + delta);
+  cart[key].qty = newQty;
+  updateCartUI();
+  renderGrid(); // kartochkani yangilaymiz
 }
 
 function goOrder() {
