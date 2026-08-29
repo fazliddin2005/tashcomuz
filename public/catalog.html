@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Каталог запчастей GM Uzbekistan — Tashcom</title>
+<link rel="icon" type="image/svg+xml" href="/t6.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D1526;--bg2:#111D35;--card:#172040;--card2:#1E2D52;
+  --cyan:#00BFFF;--text:#EDF4FF;--muted:#7A9EC0;--light:#B8D0EA;
+  --border:rgba(0,191,255,0.15);--border2:rgba(255,255,255,0.09);
+  --green:#22CC66;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:#00BFFF44;border-radius:2px}
+
+/* NAV */
+nav{background:rgba(13,21,38,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);padding:14px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text)}
+.nav-logo span{color:var(--cyan)}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;transition:color .2s}
+.nav-links a:hover{color:var(--cyan)}
+.nav-btn{background:var(--cyan);color:#061020;padding:8px 20px;border-radius:8px;font-weight:600;font-size:.82rem;text-decoration:none;transition:opacity .2s}
+.nav-btn:hover{opacity:.85;color:#061020}
+
+/* HERO */
+.hero{padding:64px 48px 48px;max-width:1400px;margin:0 auto;text-align:center}
+.hero-tag{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;margin-bottom:12px;letter-spacing:-.02em}
+.hero p{color:var(--muted);font-size:1rem;max-width:560px;margin:0 auto 32px}
+
+/* SEARCH */
+.search-bar{max-width:560px;margin:0 auto 48px;position:relative}
+.search-bar input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px 14px 48px;color:var(--text);font-family:'Inter',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s}
+.search-bar input:focus{border-color:var(--cyan)}
+.search-bar input::placeholder{color:var(--muted)}
+.search-bar .s-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search-count{text-align:center;font-size:.8rem;color:var(--muted);margin-top:-36px;margin-bottom:36px}
+
+/* CATEGORY TABS */
+.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:1400px;margin:0 auto 40px;padding:0 24px}
+.cat-tab{background:var(--card);border:1px solid var(--border2);border-radius:100px;padding:8px 18px;font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+.cat-tab:hover,.cat-tab.active{background:rgba(0,191,255,.12);border-color:var(--cyan);color:var(--cyan)}
+
+/* GRID */
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;max-width:1400px;margin:0 auto;padding:0 24px 80px}
+
+/* PART CARD */
+.pcard{background:var(--card);border:1px solid var(--border2);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s cubic-bezier(.22,1,.36,1),border-color .25s,box-shadow .25s;position:relative}
+.pcard:hover{transform:translateY(-6px);border-color:rgba(0,191,255,.4);box-shadow:0 20px 48px rgba(0,0,0,.4)}
+.pcard.added{border-color:var(--green)}
+
+/* SVG ILLUSTRATION */
+.pcard-img{width:100%;height:140px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0D2040,#1A3060);position:relative;overflow:hidden}
+.pcard-img svg{width:100%;height:100%}
+.pcard-cat-badge{position:absolute;top:10px;left:10px;background:rgba(0,191,255,.15);border:1px solid rgba(0,191,255,.3);border-radius:6px;padding:3px 9px;font-size:.65rem;font-weight:600;color:var(--cyan);letter-spacing:.04em;text-transform:uppercase}
+
+/* CARD BODY */
+.pcard-body{padding:14px 16px}
+.pcard-name{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.3}
+.pcard-meta{font-size:.73rem;color:var(--muted);margin-bottom:12px}
+.pcard-add{width:100%;background:rgba(0,191,255,.1);border:1px solid var(--border);border-radius:8px;color:var(--cyan);padding:8px;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.pcard-add:hover{background:rgba(0,191,255,.2)}
+.pcard.added .pcard-add{background:rgba(34,204,102,.12);border-color:rgba(34,204,102,.3);color:var(--green)}
+
+/* CART FLOAT */
+#cart-float{position:fixed;bottom:28px;right:28px;z-index:500;display:none}
+.cart-btn{background:linear-gradient(135deg,var(--cyan),#007BB8);color:#061020;border:none;border-radius:14px;padding:14px 24px;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 8px 28px rgba(0,191,255,.35);transition:transform .2s}
+.cart-btn:hover{transform:translateY(-2px)}
+.cart-count{background:#061020;color:var(--cyan);border-radius:100px;padding:2px 10px;font-size:.8rem}
+
+/* EMPTY */
+.empty{text-align:center;padding:80px 24px;color:var(--muted)}
+.empty-icon{font-size:3rem;margin-bottom:16px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:12px 20px}
+  .nav-links{display:none}
+  .hero{padding:40px 20px 32px}
+  .catalog-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));padding:0 16px 80px;gap:12px}
+  .pcard-img{height:110px}
+  #cart-float{bottom:20px;right:16px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 388.38 304.97" height="24">
+      <rect fill="#fff" x="0" y="80.6" width="83.05" height="83.05"/>
+      <rect fill="#fff" x="0" y="221.92" width="83.05" height="83.05"/>
+      <rect fill="#fff" x="110.08" y="0" width="83.05" height="83.05"/>
+      <rect fill="#fff" x="110.08" y="221.92" width="83.05" height="83.05"/>
+      <rect fill="#fff" x="220.16" y="0" width="83.05" height="83.05"/>
+      <rect fill="#fff" x="220.16" y="110.08" width="168.22" height="83.05"/>
+    </svg>
+    Tash<span>com</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">← На сайт</a>
+    <a href="/order.html" class="nav-btn">🛒 Оформить заказ</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">GM Uzbekistan — Cobalt · Nexia · Gentra · Damas</div>
+  <h1>Каталог автозапчастей</h1>
+  <p>5000+ позиций в наличии. Выберите нужные детали и оформите оптовый заказ.</p>
+</div>
+
+<div class="search-bar">
+  <span class="s-icon">🔍</span>
+  <input id="search" placeholder="Поиск по каталогу..." oninput="filterParts()"/>
+</div>
+<div class="search-count" id="search-count"></div>
+
+<div class="cat-tabs" id="cat-tabs"></div>
+<div class="catalog-grid" id="catalog-grid"></div>
+
+<!-- Cart float -->
+<div id="cart-float">
+  <button class="cart-btn" onclick="goOrder()">
+    🛒 Оформить заказ
+    <span class="cart-count" id="cart-count-num">0</span>
+  </button>
+</div>
+
+<script>
+// ════ SVG ILLUSTRATIONS ════
+const CAT_SVG = {
+  engine: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#eg)"/>
+    <defs><linearGradient id="eg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Engine block -->
+    <rect x="70" y="35" width="140" height="75" rx="6" fill="#0A1830" stroke="#00BFFF" stroke-width="1" stroke-opacity=".5"/>
+    <rect x="80" y="45" width="120" height="55" rx="4" fill="#0D2550"/>
+    <!-- Cylinders top -->
+    <rect x="90" y="24" width="20" height="24" rx="4" fill="#1E4A8A" stroke="#00BFFF" stroke-width=".5" stroke-opacity=".6"/>
+    <rect x="118" y="22" width="20" height="26" rx="4" fill="#1565C0" stroke="#00BFFF" stroke-width=".5" stroke-opacity=".6"/>
+    <rect x="146" y="24" width="20" height="24" rx="4" fill="#1E4A8A" stroke="#00BFFF" stroke-width=".5" stroke-opacity=".6"/>
+    <rect x="174" y="23" width="20" height="25" rx="4" fill="#1565C0" stroke="#00BFFF" stroke-width=".5" stroke-opacity=".6"/>
+    <!-- Pistons inside -->
+    <rect x="92" y="52" width="16" height="20" rx="2" fill="#00BFFF" opacity=".3"/>
+    <rect x="120" y="52" width="16" height="20" rx="2" fill="#00BFFF" opacity=".3"/>
+    <rect x="148" y="52" width="16" height="20" rx="2" fill="#00BFFF" opacity=".3"/>
+    <rect x="176" y="52" width="16" height="20" rx="2" fill="#00BFFF" opacity=".3"/>
+    <!-- Left pipes -->
+    <rect x="30" y="55" width="40" height="10" rx="4" fill="#0099CC"/>
+    <rect x="22" y="44" width="10" height="32" rx="4" fill="#00BFFF" opacity=".7"/>
+    <!-- Right pipes -->
+    <rect x="210" y="60" width="40" height="10" rx="4" fill="#0099CC"/>
+    <rect x="248" y="50" width="10" height="30" rx="4" fill="#00BFFF" opacity=".7"/>
+    <!-- Bolts -->
+    <circle cx="76" cy="41" r="4" fill="#00BFFF" opacity=".5"/>
+    <circle cx="204" cy="41" r="4" fill="#00BFFF" opacity=".5"/>
+    <circle cx="76" cy="103" r="4" fill="#00BFFF" opacity=".5"/>
+    <circle cx="204" cy="103" r="4" fill="#00BFFF" opacity=".5"/>
+    <!-- Glow -->
+    <ellipse cx="140" cy="70" rx="70" ry="30" fill="rgba(0,191,255,0.05)"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">ДВИГАТЕЛЬ</text>
+  </svg>`,
+
+  brake: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#bg2)"/>
+    <defs><linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Brake disc -->
+    <circle cx="140" cy="68" r="46" fill="none" stroke="#1E4A8A" stroke-width="14" stroke-opacity=".8"/>
+    <circle cx="140" cy="68" r="46" fill="none" stroke="#00BFFF" stroke-width="2" stroke-opacity=".4"/>
+    <circle cx="140" cy="68" r="32" fill="none" stroke="#0D3060" stroke-width="10"/>
+    <circle cx="140" cy="68" r="18" fill="#0A1830" stroke="#00BFFF" stroke-width="1" stroke-opacity=".5"/>
+    <circle cx="140" cy="68" r="6" fill="#00BFFF" opacity=".6"/>
+    <!-- Ventilation holes -->
+    <circle cx="140" cy="36" r="5" fill="#0D2550"/>
+    <circle cx="168" cy="52" r="5" fill="#0D2550"/>
+    <circle cx="168" cy="84" r="5" fill="#0D2550"/>
+    <circle cx="140" cy="100" r="5" fill="#0D2550"/>
+    <circle cx="112" cy="84" r="5" fill="#0D2550"/>
+    <circle cx="112" cy="52" r="5" fill="#0D2550"/>
+    <!-- Caliper -->
+    <rect x="178" y="48" width="36" height="40" rx="6" fill="#1A3060" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".5"/>
+    <rect x="182" y="54" width="28" height="14" rx="3" fill="#0099CC" opacity=".5"/>
+    <rect x="182" y="72" width="28" height="14" rx="3" fill="#0099CC" opacity=".5"/>
+    <!-- Pads -->
+    <rect x="178" y="52" width="8" height="32" rx="2" fill="#00BFFF" opacity=".7"/>
+    <!-- Glow -->
+    <ellipse cx="140" cy="68" rx="50" ry="50" fill="rgba(0,191,255,0.04)"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">ТОРМОЗА</text>
+  </svg>`,
+
+  suspension: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#sg)"/>
+    <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Shock absorber body -->
+    <rect x="118" y="15" width="18" height="80" rx="6" fill="#0A1830" stroke="#00BFFF" stroke-width="1" stroke-opacity=".5"/>
+    <rect x="122" y="18" width="10" height="45" rx="4" fill="#1E4A8A"/>
+    <!-- Spring coil -->
+    <path d="M 108 95 Q 95 100 108 108 Q 121 116 108 124 Q 95 132 108 138" stroke="#00BFFF" stroke-width="3" fill="none" stroke-opacity=".7"/>
+    <path d="M 140 95 Q 127 100 140 108 Q 153 116 140 124 Q 127 132 140 138" stroke="#00BFFF" stroke-width="3" fill="none" stroke-opacity=".7"/>
+    <path d="M 172 95 Q 159 100 172 108 Q 185 116 172 124 Q 159 132 172 138" stroke="#00BFFF" stroke-width="3" fill="none" stroke-opacity=".7"/>
+    <!-- Upper mount -->
+    <ellipse cx="127" cy="15" rx="22" ry="8" fill="#1565C0" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".6"/>
+    <!-- Lower arm -->
+    <rect x="60" y="90" width="80" height="10" rx="4" fill="#0D3060" stroke="#00BFFF" stroke-width=".5" stroke-opacity=".5"/>
+    <rect x="180" y="90" width="60" height="10" rx="4" fill="#0D3060" stroke="#00BFFF" stroke-width=".5" stroke-opacity=".5"/>
+    <!-- Ball joint -->
+    <circle cx="55" cy="95" r="9" fill="#1E4A8A" stroke="#00BFFF" stroke-width="1" stroke-opacity=".6"/>
+    <circle cx="55" cy="95" r="4" fill="#00BFFF" opacity=".5"/>
+    <!-- Wheel hub -->
+    <circle cx="240" cy="95" r="14" fill="#0A1830" stroke="#1E4A8A" stroke-width="3"/>
+    <circle cx="240" cy="95" r="6" fill="#1E4A8A"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">ПОДВЕСКА</text>
+  </svg>`,
+
+  trans: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#tg)"/>
+    <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Gearbox -->
+    <rect x="55" y="30" width="100" height="80" rx="10" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <rect x="65" y="40" width="80" height="60" rx="6" fill="#0D2550"/>
+    <!-- Gears inside -->
+    <circle cx="90" cy="65" r="18" fill="none" stroke="#00BFFF" stroke-width="2" stroke-opacity=".5"/>
+    <circle cx="90" cy="65" r="10" fill="#1E4A8A"/>
+    <circle cx="90" cy="65" r="4" fill="#00BFFF" opacity=".6"/>
+    <!-- Gear teeth -->
+    <circle cx="90" cy="45" r="3" fill="#00BFFF" opacity=".4"/>
+    <circle cx="108" cy="58" r="3" fill="#00BFFF" opacity=".4"/>
+    <circle cx="108" cy="72" r="3" fill="#00BFFF" opacity=".4"/>
+    <circle cx="90" cy="85" r="3" fill="#00BFFF" opacity=".4"/>
+    <circle cx="72" cy="72" r="3" fill="#00BFFF" opacity=".4"/>
+    <circle cx="72" cy="58" r="3" fill="#00BFFF" opacity=".4"/>
+    <!-- Second gear -->
+    <circle cx="128" cy="65" r="12" fill="none" stroke="#00BFFF" stroke-width="1.5" stroke-opacity=".4"/>
+    <circle cx="128" cy="65" r="6" fill="#1565C0"/>
+    <!-- Shaft right -->
+    <rect x="155" y="62" width="70" height="8" rx="3" fill="#0099CC"/>
+    <rect x="218" y="55" width="12" height="22" rx="4" fill="#1E4A8A" stroke="#00BFFF" stroke-width=".5"/>
+    <!-- Shaft left -->
+    <rect x="20" y="62" width="35" height="8" rx="3" fill="#0099CC"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">ТРАНСМИССИЯ</text>
+  </svg>`,
+
+  electric: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#elg)"/>
+    <defs><linearGradient id="elg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Alternator -->
+    <circle cx="100" cy="68" r="40" fill="#0A1830" stroke="#1E4A8A" stroke-width="2"/>
+    <circle cx="100" cy="68" r="28" fill="#0D2550" stroke="#00BFFF" stroke-width="1" stroke-opacity=".4"/>
+    <circle cx="100" cy="68" r="14" fill="#1565C0"/>
+    <circle cx="100" cy="68" r="6" fill="#00BFFF" opacity=".7"/>
+    <!-- Coil lines -->
+    <circle cx="100" cy="68" r="20" fill="none" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".3" stroke-dasharray="4,3"/>
+    <!-- Lightning bolt -->
+    <path d="M 98 52 L 88 70 L 98 70 L 96 88 L 110 66 L 100 66 Z" fill="#00BFFF" opacity=".8"/>
+    <!-- Battery -->
+    <rect x="170" y="40" width="70" height="55" rx="8" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <rect x="178" y="30" width="12" height="14" rx="3" fill="#00BFFF" opacity=".8"/>
+    <rect x="204" y="30" width="12" height="14" rx="3" fill="#1E4A8A"/>
+    <rect x="178" y="52" width="24" height="12" rx="3" fill="#1E4A8A" opacity=".6"/>
+    <rect x="178" y="68" width="24" height="12" rx="3" fill="#1E4A8A" opacity=".4"/>
+    <text x="205" y="73" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".6" font-weight="bold">12V</text>
+    <!-- Wire -->
+    <path d="M 140 68 Q 155 68 170 68" stroke="#00BFFF" stroke-width="2" fill="none" stroke-opacity=".6" stroke-dasharray="5,3"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">ЭЛЕКТРИКА</text>
+  </svg>`,
+
+  body: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#bodyg)"/>
+    <defs><linearGradient id="bodyg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Car silhouette Cobalt -->
+    <path d="M 40 95 L 50 65 Q 70 45 110 42 L 170 42 Q 210 45 230 65 L 240 95 Z" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <!-- Windows -->
+    <path d="M 85 65 L 95 48 L 140 47 L 140 65 Z" fill="#1E4A8A" opacity=".7"/>
+    <path d="M 145 65 L 145 47 L 185 48 L 195 65 Z" fill="#1E4A8A" opacity=".7"/>
+    <!-- Door lines -->
+    <line x1="140" y1="42" x2="140" y2="95" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".4"/>
+    <!-- Wheels -->
+    <circle cx="90" cy="97" r="18" fill="#0D1830" stroke="#1E4A8A" stroke-width="3"/>
+    <circle cx="90" cy="97" r="8" fill="#1E4A8A"/>
+    <circle cx="90" cy="97" r="3" fill="#00BFFF" opacity=".5"/>
+    <circle cx="192" cy="97" r="18" fill="#0D1830" stroke="#1E4A8A" stroke-width="3"/>
+    <circle cx="192" cy="97" r="8" fill="#1E4A8A"/>
+    <circle cx="192" cy="97" r="3" fill="#00BFFF" opacity=".5"/>
+    <!-- Headlight -->
+    <path d="M 232 68 L 240 72 L 240 80 L 232 82 Z" fill="#00BFFF" opacity=".8"/>
+    <!-- Arrows pointing to parts -->
+    <line x1="50" y1="65" x2="30" y2="50" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".4" stroke-dasharray="3,2"/>
+    <line x1="240" y1="75" x2="258" y2="60" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".4" stroke-dasharray="3,2"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">КУЗОВ</text>
+  </svg>`,
+
+  cooling: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#cg)"/>
+    <defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Radiator -->
+    <rect x="50" y="25" width="140" height="90" rx="6" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <!-- Tubes horizontal -->
+    <rect x="56" y="35" width="128" height="7" rx="2" fill="#0099CC" opacity=".6"/>
+    <rect x="56" y="47" width="128" height="7" rx="2" fill="#0099CC" opacity=".6"/>
+    <rect x="56" y="59" width="128" height="7" rx="2" fill="#0099CC" opacity=".6"/>
+    <rect x="56" y="71" width="128" height="7" rx="2" fill="#0099CC" opacity=".6"/>
+    <rect x="56" y="83" width="128" height="7" rx="2" fill="#0099CC" opacity=".6"/>
+    <rect x="56" y="95" width="128" height="7" rx="2" fill="#0099CC" opacity=".6"/>
+    <!-- Fins vertical -->
+    <line x1="80" y1="30" x2="80" y2="110" stroke="#1E4A8A" stroke-width="1" stroke-opacity=".4"/>
+    <line x1="104" y1="30" x2="104" y2="110" stroke="#1E4A8A" stroke-width="1" stroke-opacity=".4"/>
+    <line x1="128" y1="30" x2="128" y2="110" stroke="#1E4A8A" stroke-width="1" stroke-opacity=".4"/>
+    <line x1="152" y1="30" x2="152" y2="110" stroke="#1E4A8A" stroke-width="1" stroke-opacity=".4"/>
+    <line x1="176" y1="30" x2="176" y2="110" stroke="#1E4A8A" stroke-width="1" stroke-opacity=".4"/>
+    <!-- Hoses -->
+    <path d="M 190 40 Q 220 40 230 60 L 240 60" stroke="#00BFFF" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
+    <path d="M 190 95 Q 220 95 230 80 L 240 80" stroke="#0099CC" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
+    <!-- Fan -->
+    <circle cx="258" cy="70" r="18" fill="none" stroke="#00BFFF" stroke-width="1" stroke-opacity=".4"/>
+    <path d="M 258 52 Q 268 61 258 70 Q 248 61 258 52" fill="#1E4A8A" opacity=".7"/>
+    <path d="M 276 70 Q 267 80 258 70 Q 267 60 276 70" fill="#1E4A8A" opacity=".7"/>
+    <path d="M 258 88 Q 248 79 258 70 Q 268 79 258 88" fill="#1E4A8A" opacity=".7"/>
+    <path d="M 240 70 Q 249 60 258 70 Q 249 80 240 70" fill="#1E4A8A" opacity=".7"/>
+    <circle cx="258" cy="70" r="5" fill="#00BFFF" opacity=".6"/>
+    <text x="130" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">ОХЛАЖДЕНИЕ</text>
+  </svg>`,
+
+  exhaust: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#exg)"/>
+    <defs><linearGradient id="exg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Manifold -->
+    <path d="M 30 55 Q 50 55 60 70 L 60 80" stroke="#1E4A8A" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path d="M 30 70 Q 55 70 60 75" stroke="#1E4A8A" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path d="M 30 85 Q 55 85 60 80" stroke="#1E4A8A" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path d="M 30 100 Q 50 100 60 85" stroke="#1E4A8A" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <!-- Collector -->
+    <ellipse cx="60" cy="77" rx="10" ry="22" fill="#0A1830" stroke="#00BFFF" stroke-width="1" stroke-opacity=".5"/>
+    <!-- Main pipe -->
+    <rect x="60" y="71" width="120" height="12" rx="5" fill="#0D3060" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".5"/>
+    <!-- Resonator -->
+    <ellipse cx="145" cy="77" rx="22" ry="16" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <ellipse cx="145" cy="77" rx="14" ry="9" fill="#0D2550"/>
+    <!-- Muffler -->
+    <ellipse cx="220" cy="77" rx="32" ry="22" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <ellipse cx="220" cy="77" rx="22" ry="14" fill="#0D2550"/>
+    <!-- Exit pipe -->
+    <rect x="248" y="73" width="22" height="8" rx="4" fill="#0D3060" stroke="#00BFFF" stroke-width=".5" stroke-opacity=".5"/>
+    <!-- Smoke -->
+    <path d="M 272 69 Q 278 62 274 56" stroke="#00BFFF" stroke-width="1.5" fill="none" stroke-opacity=".3" stroke-linecap="round"/>
+    <path d="M 275 67 Q 282 58 278 50" stroke="#00BFFF" stroke-width="1" fill="none" stroke-opacity=".2" stroke-linecap="round"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">ВЫХЛОП</text>
+  </svg>`,
+
+  steering: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#stg)"/>
+    <defs><linearGradient id="stg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Steering wheel -->
+    <circle cx="90" cy="68" r="38" fill="none" stroke="#1E4A8A" stroke-width="10"/>
+    <circle cx="90" cy="68" r="38" fill="none" stroke="#00BFFF" stroke-width="1.5" stroke-opacity=".4"/>
+    <circle cx="90" cy="68" r="14" fill="#0A1830" stroke="#00BFFF" stroke-width="1" stroke-opacity=".5"/>
+    <!-- Spokes -->
+    <line x1="90" y1="30" x2="90" y2="54" stroke="#1E4A8A" stroke-width="6" stroke-linecap="round"/>
+    <line x1="57" y1="86" x2="76" y2="74" stroke="#1E4A8A" stroke-width="6" stroke-linecap="round"/>
+    <line x1="123" y1="86" x2="104" y2="74" stroke="#1E4A8A" stroke-width="6" stroke-linecap="round"/>
+    <!-- Hub -->
+    <circle cx="90" cy="68" r="7" fill="#00BFFF" opacity=".5"/>
+    <!-- Steering column -->
+    <rect x="86" y="106" width="8" height="30" rx="3" fill="#0D3060" stroke="#1E4A8A" stroke-width=".8"/>
+    <!-- Rack -->
+    <rect x="140" y="62" width="100" height="12" rx="5" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <!-- Tie rods -->
+    <rect x="236" y="56" width="8" height="24" rx="3" fill="#0099CC"/>
+    <circle cx="240" cy="55" r="6" fill="#1E4A8A" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".5"/>
+    <rect x="140" y="56" width="8" height="24" rx="3" fill="#0099CC"/>
+    <circle cx="144" cy="55" r="6" fill="#1E4A8A" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".5"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">РУЛЕВОЕ</text>
+  </svg>`,
+
+  fuel: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#fg)"/>
+    <defs><linearGradient id="fg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Fuel tank -->
+    <rect x="30" y="50" width="100" height="60" rx="12" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <!-- Fuel level -->
+    <rect x="36" y="80" width="88" height="24" rx="8" fill="#1565C0" opacity=".4"/>
+    <text x="80" y="96" text-anchor="middle" font-family="Arial" font-size="11" fill="#00BFFF" opacity=".6">⛽ 75%</text>
+    <!-- Fuel pump -->
+    <rect x="155" y="30" width="50" height="80" rx="10" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <rect x="162" y="40" width="36" height="50" rx="6" fill="#0D2550"/>
+    <circle cx="180" cy="65" r="14" fill="none" stroke="#00BFFF" stroke-width="2" stroke-opacity=".5"/>
+    <circle cx="180" cy="65" r="6" fill="#00BFFF" opacity=".4"/>
+    <!-- Injector -->
+    <rect x="220" y="45" width="40" height="12" rx="4" fill="#0D3060" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".5"/>
+    <rect x="250" y="40" width="8" height="22" rx="3" fill="#1E4A8A"/>
+    <!-- Pipes -->
+    <path d="M 130 70 Q 145 70 155 65" stroke="#00BFFF" stroke-width="3" fill="none" stroke-opacity=".6"/>
+    <path d="M 205 65 Q 215 65 220 65" stroke="#00BFFF" stroke-width="2" fill="none" stroke-opacity=".5"/>
+    <!-- Filter -->
+    <ellipse cx="144" cy="95" rx="14" ry="20" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.2"/>
+    <line x1="130" y1="90" x2="130" y2="100" stroke="#0099CC" stroke-width="4"/>
+    <line x1="158" y1="90" x2="158" y2="100" stroke="#0099CC" stroke-width="4"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">ТОПЛИВО</text>
+  </svg>`,
+
+  cabin: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#cabg)"/>
+    <defs><linearGradient id="cabg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Car seat -->
+    <rect x="30" y="45" width="70" height="75" rx="8" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <!-- Seat back -->
+    <rect x="36" y="50" width="58" height="50" rx="6" fill="#1565C0" opacity=".5"/>
+    <!-- Head rest -->
+    <rect x="46" y="38" width="38" height="18" rx="6" fill="#0D2550" stroke="#1E4A8A" stroke-width="1"/>
+    <!-- Seat base -->
+    <rect x="30" y="98" width="70" height="22" rx="6" fill="#1565C0" opacity=".4"/>
+    <!-- Dashboard -->
+    <rect x="130" y="30" width="120" height="60" rx="10" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <!-- Speedometer -->
+    <circle cx="170" cy="60" r="20" fill="#0D2550" stroke="#00BFFF" stroke-width="1" stroke-opacity=".5"/>
+    <path d="M 170 60 L 170 44" stroke="#00BFFF" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+    <circle cx="170" cy="60" r="3" fill="#00BFFF" opacity=".7"/>
+    <!-- RPM -->
+    <circle cx="220" cy="60" r="16" fill="#0D2550" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".4"/>
+    <path d="M 220 60 L 226 47" stroke="#00BFFF" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+    <!-- AC vents -->
+    <rect x="136" y="94" width="24" height="8" rx="3" fill="#1E4A8A" opacity=".6"/>
+    <rect x="166" y="94" width="24" height="8" rx="3" fill="#1E4A8A" opacity=".6"/>
+    <rect x="196" y="94" width="24" height="8" rx="3" fill="#1E4A8A" opacity=".6"/>
+    <!-- Seatbelt -->
+    <path d="M 98 50 L 80 120" stroke="#00BFFF" stroke-width="3" fill="none" stroke-opacity=".5" stroke-linecap="round"/>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">САЛОН</text>
+  </svg>`,
+
+  filters: `<svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="140" fill="url(#filg)"/>
+    <defs><linearGradient id="filg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2040"/><stop offset="100%" stop-color="#1A3060"/></linearGradient></defs>
+    <!-- Oil filter -->
+    <ellipse cx="60" cy="70" rx="26" ry="42" fill="#0A1830" stroke="#1E4A8A" stroke-width="2"/>
+    <ellipse cx="60" cy="70" rx="18" ry="34" fill="#0D2550"/>
+    <!-- Filter media spiral -->
+    <circle cx="60" cy="70" r="14" fill="none" stroke="#00BFFF" stroke-width="1" stroke-opacity=".4" stroke-dasharray="5,3"/>
+    <circle cx="60" cy="70" r="8" fill="none" stroke="#00BFFF" stroke-width="1" stroke-opacity=".3" stroke-dasharray="4,2"/>
+    <circle cx="60" cy="70" r="4" fill="#00BFFF" opacity=".4"/>
+    <text x="60" y="28" text-anchor="middle" font-family="Arial" font-size="7" fill="#00BFFF" opacity=".5">МАСЛО</text>
+    <!-- Air filter -->
+    <rect x="115" y="30" width="70" height="80" rx="8" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <!-- Filter pleats -->
+    <line x1="124" y1="35" x2="124" y2="105" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".3"/>
+    <line x1="132" y1="35" x2="132" y2="105" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".3"/>
+    <line x1="140" y1="35" x2="140" y2="105" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".3"/>
+    <line x1="148" y1="35" x2="148" y2="105" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".3"/>
+    <line x1="156" y1="35" x2="156" y2="105" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".3"/>
+    <line x1="164" y1="35" x2="164" y2="105" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".3"/>
+    <line x1="172" y1="35" x2="172" y2="105" stroke="#00BFFF" stroke-width=".8" stroke-opacity=".3"/>
+    <rect x="115" y="58" width="70" height="24" rx="4" fill="#1565C0" opacity=".3"/>
+    <text x="150" y="28" text-anchor="middle" font-family="Arial" font-size="7" fill="#00BFFF" opacity=".5">ВОЗДУХ</text>
+    <!-- Cabin filter -->
+    <rect x="208" y="40" width="56" height="60" rx="6" fill="#0A1830" stroke="#1E4A8A" stroke-width="1.5"/>
+    <line x1="215" y1="46" x2="215" y2="94" stroke="#00BFFF" stroke-width=".7" stroke-opacity=".3"/>
+    <line x1="222" y1="46" x2="222" y2="94" stroke="#00BFFF" stroke-width=".7" stroke-opacity=".3"/>
+    <line x1="229" y1="46" x2="229" y2="94" stroke="#00BFFF" stroke-width=".7" stroke-opacity=".3"/>
+    <line x1="236" y1="46" x2="236" y2="94" stroke="#00BFFF" stroke-width=".7" stroke-opacity=".3"/>
+    <line x1="243" y1="46" x2="243" y2="94" stroke="#00BFFF" stroke-width=".7" stroke-opacity=".3"/>
+    <line x1="250" y1="46" x2="250" y2="94" stroke="#00BFFF" stroke-width=".7" stroke-opacity=".3"/>
+    <line x1="257" y1="46" x2="257" y2="94" stroke="#00BFFF" stroke-width=".7" stroke-opacity=".3"/>
+    <text x="236" y="28" text-anchor="middle" font-family="Arial" font-size="7" fill="#00BFFF" opacity=".5">САЛОН</text>
+    <text x="140" y="130" text-anchor="middle" font-family="Arial" font-size="9" fill="#00BFFF" opacity=".4" letter-spacing="2">ФИЛЬТРЫ</text>
+  </svg>`
+};
+
+// ════ PARTS DATA ════
+const PARTS = {
+  engine:[
+    'Поршень','Поршневые кольца','Шатун','Коленвал','Распредвал',
+    'Головка блока цилиндров','Прокладка ГБЦ','Клапан впускной','Клапан выпускной',
+    'Маслонасос','Водяная помпа','Ремень ГРМ','Цепь ГРМ','Натяжитель ремня',
+    'Масляный поддон','Сальник коленвала','Крышка клапанов','Прокладка поддона',
+    'Гильза цилиндра','Вкладыши коренные','Вкладыши шатунные','Турбокомпрессор',
+    'Дроссельная заслонка','Катколлектор','Прокладка выпускного коллектора'
+  ],
+  brake:[
+    'Тормозной диск передний','Тормозной диск задний','Тормозной барабан',
+    'Тормозные колодки передние','Тормозные колодки задние','Тормозной суппорт',
+    'Ремкомплект суппорта','Рабочий тормозной цилиндр','Главный тормозной цилиндр',
+    'Вакуумный усилитель','ABS датчик','ABS блок управления','Тормозной шланг',
+    'Тормозная трубка','Трос стояночного тормоза','Пружина тормозной колодки'
+  ],
+  suspension:[
+    'Амортизатор передний','Амортизатор задний','Пружина передняя','Пружина задняя',
+    'Рычаг передней подвески верхний','Рычаг передней подвески нижний',
+    'Шаровая опора','Стойка стабилизатора','Втулка стабилизатора','Сайлентблок',
+    'Ступичный подшипник передний','Ступичный подшипник задний','Ступица',
+    'Рулевая тяга','Наконечник рулевой тяги','Буфер отбоя','Опора стойки',
+    'Подшипник опоры стойки','Подрамник','Отбойник'
+  ],
+  trans:[
+    'Сцепление (комплект)','Диск сцепления','Корзина сцепления','Выжимной подшипник',
+    'Вилка сцепления','ШРУС наружный левый','ШРУС наружный правый',
+    'ШРУС внутренний левый','ШРУС внутренний правый','Граната в сборе',
+    'Приводной вал левый','Приводной вал правый','Сальник полуоси',
+    'Синхронизатор КПП','Вилка переключения КПП','Сальник КПП первичный',
+    'Сальник КПП вторичный','Подшипник первичного вала','Подшипник вторичного вала'
+  ],
+  electric:[
+    'Аккумулятор 60Ah','Аккумулятор 70Ah','Генератор','Щётки генератора',
+    'Реле-регулятор генератора','Стартер','Щётки стартера','Реле стартера',
+    'Свечи зажигания (комплект)','Катушка зажигания','Высоковольтные провода',
+    'Датчик кислорода (лямбда)','Датчик температуры охлаждающей жидкости',
+    'Датчик коленвала','Датчик распредвала','Датчик давления масла',
+    'Датчик скорости','Датчик положения дроссельной заслонки',
+    'Фара передняя левая','Фара передняя правая','Фонарь задний левый',
+    'Фонарь задний правый','Лампа H4','Лампа H7','Предохранитель (набор)',
+    'Реле поворотников','Электромотор стеклоподъёмника','Моторчик вентилятора'
+  ],
+  body:[
+    'Капот','Бампер передний','Бампер задний','Крыло переднее левое',
+    'Крыло переднее правое','Дверь передняя левая','Дверь передняя правая',
+    'Дверь задняя левая','Дверь задняя правая','Крышка багажника',
+    'Лобовое стекло','Стекло двери переднее левое','Стекло двери переднее правое',
+    'Зеркало левое','Зеркало правое','Зеркальный элемент левый',
+    'Зеркальный элемент правый','Ручка двери наружная','Ручка двери внутренняя',
+    'Замок двери','Петля двери','Уплотнитель двери','Порог левый','Порог правый',
+    'Решётка радиатора','Подкрылок передний','Подкрылок задний'
+  ],
+  cooling:[
+    'Радиатор охлаждения','Крышка радиатора','Расширительный бачок',
+    'Патрубок радиатора верхний','Патрубок радиатора нижний','Термостат',
+    'Помпа (водяной насос)','Вентилятор охлаждения','Мотор вентилятора радиатора',
+    'Радиатор кондиционера','Компрессор кондиционера','Ресивер-осушитель',
+    'Испаритель кондиционера','Трубка кондиционера высокого давления',
+    'Трубка кондиционера низкого давления','Ремень привода компрессора'
+  ],
+  exhaust:[
+    'Приёмная труба (штаны)','Гофра приёмной трубы','Катализатор',
+    'Прокладка выпускного коллектора','Выпускной коллектор','Резонатор',
+    'Средняя труба','Глушитель основной','Прокладка глушителя',
+    'Хомут глушителя','Подвеска глушителя (резинка)','Кронштейн глушителя'
+  ],
+  steering:[
+    'Рулевая рейка в сборе','Ремкомплект рулевой рейки','Насос ГУР',
+    'Шланг ГУР высокого давления','Шланг ГУР низкого давления',
+    'Бачок ГУР','Рулевая колонка','Кардан рулевой','Крестовина рулевая',
+    'Наконечник рулевой тяги левый','Наконечник рулевой тяги правый',
+    'Рулевая тяга левая','Рулевая тяга правая','Рулевое колесо'
+  ],
+  fuel:[
+    'Топливный насос','Топливный фильтр','Форсунка топливная',
+    'Топливная рампа','Регулятор давления топлива','Датчик уровня топлива',
+    'Топливный бак','Горловина топливного бака','Крышка топливного бака',
+    'Трубка топливная подачи','Трубка топливная обратки','Топливный клапан'
+  ],
+  cabin:[
+    'Сиденье переднее левое','Сиденье переднее правое','Сиденье заднее',
+    'Подголовник','Ремень безопасности передний','Ремень безопасности задний',
+    'Подушка безопасности водителя','Подушка безопасности пассажира',
+    'Панель приборов','Замок зажигания','Педаль газа','Педаль тормоза',
+    'Педаль сцепления','Коврики резиновые (комплект)','Коврики велюровые',
+    'Обшивка двери передней','Обшивка двери задней','Потолочная обшивка',
+    'Бардачок','Зеркало салонное','Солнцезащитный козырёк','Подлокотник'
+  ],
+  filters:[
+    'Масляный фильтр','Воздушный фильтр','Фильтр салона (угольный)',
+    'Фильтр салона (обычный)','Топливный фильтр','Фильтр АКПП',
+    'Фильтр гидроусилителя руля','Фильтр вентиляции картера'
+  ]
+};
+
+const CAT_NAMES = {
+  engine:'Двигатель',brake:'Тормоза',suspension:'Подвеска',trans:'Трансмиссия',
+  electric:'Электрика',body:'Кузов',cooling:'Охлаждение',exhaust:'Выхлоп',
+  steering:'Рулевое',fuel:'Топливо',cabin:'Салон',filters:'Фильтры'
+};
+const CAT_ICONS = {
+  engine:'⚙️',brake:'🛞',suspension:'🔧',trans:'🔩',electric:'💡',body:'🏗️',
+  cooling:'🌊',exhaust:'💨',steering:'🎯',fuel:'⛽',cabin:'💺',filters:'🧹'
+};
+
+// State
+let cart = {};
+let activecat = 'all';
+let searchQ = '';
+
+// Build flat list
+const ALL_PARTS = [];
+Object.entries(PARTS).forEach(([cat, parts]) => {
+  parts.forEach(name => ALL_PARTS.push({name, cat}));
+});
+
+// Render category tabs
+function renderTabs() {
+  const el = document.getElementById('cat-tabs');
+  let html = `<div class="cat-tab ${activecat==='all'?'active':''}" onclick="setcat('all')">Все (${ALL_PARTS.length})</div>`;
+  Object.entries(CAT_NAMES).forEach(([k,v]) => {
+    const count = PARTS[k].length;
+    html += `<div class="cat-tab ${activecat===k?'active':''}" onclick="setcat('${k}')">${CAT_ICONS[k]} ${v} (${count})</div>`;
+  });
+  el.innerHTML = html;
+}
+
+function setcat(cat) {
+  activecat = cat;
+  renderTabs();
+  renderGrid();
+}
+
+// Render grid
+function renderGrid() {
+  const q = searchQ.toLowerCase().trim();
+  const filtered = ALL_PARTS.filter(p => {
+    const matchCat = activecat === 'all' || p.cat === activecat;
+    const matchQ = !q || p.name.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+
+  const countEl = document.getElementById('search-count');
+  countEl.textContent = q ? `Найдено: ${filtered.length} позиций` : '';
+
+  const grid = document.getElementById('catalog-grid');
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🔍</div><p>Ничего не найдено</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => {
+    const isAdded = !!cart[p.name];
+    return `<div class="pcard ${isAdded?'added':''}" id="card-${CSS.escape(p.name)}">
+      <div class="pcard-img">
+        ${CAT_SVG[p.cat] || ''}
+        <div class="pcard-cat-badge">${CAT_ICONS[p.cat]} ${CAT_NAMES[p.cat]}</div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">${p.name}</div>
+        <div class="pcard-meta">GM Uzbekistan · Cobalt / Nexia / Gentra</div>
+        <button class="pcard-add" onclick="toggleCart('${p.name.replace(/'/g,"\\'")}','${p.cat}')">
+          ${isAdded ? '✓ Добавлено' : '+ В заявку'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCart(name, cat) {
+  if (cart[name]) {
+    delete cart[name];
+  } else {
+    cart[name] = {name, cat, qty: 1};
+  }
+  updateCartUI();
+  // Update single card
+  const card = document.getElementById('card-' + CSS.escape(name));
+  if (card) {
+    const isAdded = !!cart[name];
+    card.classList.toggle('added', isAdded);
+    const btn = card.querySelector('.pcard-add');
+    if (btn) btn.textContent = isAdded ? '✓ Добавлено' : '+ В заявку';
+  }
+}
+
+function updateCartUI() {
+  const count = Object.keys(cart).length;
+  const float = document.getElementById('cart-float');
+  const num = document.getElementById('cart-count-num');
+  float.style.display = count > 0 ? 'block' : 'none';
+  num.textContent = count;
+}
+
+function goOrder() {
+  const parts = encodeURIComponent(JSON.stringify(Object.keys(cart)));
+  window.location.href = `/order.html?parts=${parts}`;
+}
+
+function filterParts() {
+  searchQ = document.getElementById('search').value;
+  renderGrid();
+}
+
+// Init
+renderTabs();
+renderGrid();
+</script>
+</body>
+</html>
