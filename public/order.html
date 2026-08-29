@@ -6,34 +6,31 @@
 <title>Оформить заказ — Tashcom</title>
 <link rel="icon" type="image/svg+xml" href="/t6.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#0D1526;--bg2:#111D35;--card:#172040;--card2:#1E2D52;
-  --cyan:#00BFFF;--cyan2:#0099CC;--text:#EDF4FF;--muted:#7A9EC0;
-  --light:#B8D0EA;--border:rgba(0,191,255,0.15);--border2:rgba(255,255,255,0.09);
+  --cyan:#00BFFF;--text:#EDF4FF;--muted:#7A9EC0;--light:#B8D0EA;
+  --border:rgba(0,191,255,0.15);--border2:rgba(255,255,255,0.09);
   --green:#22CC66;--red:#FF5555;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
 ::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-thumb{background:var(--cyan2);border-radius:2px}
+::-webkit-scrollbar-thumb{background:#00BFFF44;border-radius:2px}
 
-/* NAV */
-nav{background:rgba(13,21,38,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);padding:14px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text)}
+nav{background:rgba(13,21,38,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);padding:14px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text)}
 .nav-logo span{color:var(--cyan)}
-.nav-back{display:flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:.85rem;transition:color .2s}
+.nav-back{color:var(--muted);text-decoration:none;font-size:.85rem;transition:color .2s}
 .nav-back:hover{color:var(--cyan)}
 
-/* MAIN LAYOUT */
-.main{max-width:1200px;margin:0 auto;padding:48px 24px;display:grid;grid-template-columns:1fr 380px;gap:32px;align-items:start}
+.main{max-width:1200px;margin:0 auto;padding:40px 24px;display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start}
 
-/* STEPS HEADER */
-.steps-header{display:flex;gap:0;margin-bottom:36px;background:var(--card);border:1px solid var(--border2);border-radius:14px;overflow:hidden}
-.step-tab{flex:1;padding:14px 12px;text-align:center;font-size:.78rem;font-weight:600;color:var(--muted);transition:all .25s;cursor:pointer;border-right:1px solid var(--border2);display:flex;flex-direction:column;align-items:center;gap:4px}
+/* Steps */
+.steps-header{display:flex;gap:0;margin-bottom:28px;background:var(--card);border:1px solid var(--border2);border-radius:14px;overflow:hidden}
+.step-tab{flex:1;padding:14px 12px;text-align:center;font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer;border-right:1px solid var(--border2);display:flex;flex-direction:column;align-items:center;gap:4px}
 .step-tab:last-child{border-right:none}
 .step-tab.active{background:rgba(0,191,255,.1);color:var(--cyan)}
 .step-tab.done{color:var(--green)}
@@ -41,145 +38,104 @@ nav{background:rgba(13,21,38,.95);backdrop-filter:blur(20px);border-bottom:1px s
 .step-tab.active .snum{background:var(--cyan);color:#061020}
 .step-tab.done .snum{background:var(--green);color:#fff}
 
-/* CARDS */
-.section-card{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:28px;margin-bottom:20px}
-.section-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;color:var(--text)}
-.section-title span{width:28px;height:28px;border-radius:8px;background:rgba(0,191,255,.15);display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.scard{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:24px;margin-bottom:16px}
+.stitle{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 
-/* SEARCH BOX */
-.search-wrap{position:relative;margin-bottom:16px}
-.search-inp{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border2);border-radius:12px;padding:14px 44px 14px 44px;color:var(--text);font-family:'Inter',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s}
-.search-inp:focus{border-color:var(--cyan);background:rgba(0,191,255,.04)}
-.search-inp::placeholder{color:var(--muted)}
-.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1rem;pointer-events:none}
-.search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;display:none}
-.search-clear.show{display:block}
+/* Form */
+select,input,textarea{width:100%;background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s}
+select:focus,input:focus,textarea:focus{border-color:var(--cyan)}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A9EC0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-color:var(--card2)}
+select option{background:#172040}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+textarea{resize:vertical;min-height:80px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.flabel{font-size:.75rem;font-weight:600;color:var(--light);letter-spacing:.04em}
 
-/* SUGGESTIONS */
-.suggestions{background:var(--card2);border:1px solid var(--border);border-radius:12px;max-height:400px;overflow-y:auto;display:none;margin-bottom:12px;box-shadow:0 16px 40px rgba(0,0,0,.4)}
-.suggestions.show{display:block}
-.suggestions::-webkit-scrollbar{width:3px}
-.suggestions::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-.sug-item{padding:12px 16px;cursor:pointer;font-size:.88rem;border-bottom:1px solid var(--border2);transition:background .15s;display:flex;justify-content:space-between;align-items:center}
-.sug-item:last-child{border-bottom:none}
-.sug-item:hover,.sug-item.focused{background:rgba(0,191,255,.08);color:var(--cyan)}
-.sug-cat{font-size:.72rem;color:var(--muted);margin-top:2px}
-.sug-badge{font-size:.68rem;background:rgba(0,191,255,.1);color:var(--cyan);padding:2px 8px;border-radius:100px;white-space:nowrap}
+/* Tags */
+.tag-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.ctag{background:rgba(0,191,255,.1);border:1px solid rgba(0,191,255,.2);border-radius:8px;padding:5px 12px;font-size:.78rem;color:var(--cyan);display:flex;align-items:center;gap:6px}
+.ctag .rm{cursor:pointer;color:var(--muted);transition:color .15s}
+.ctag .rm:hover{color:var(--red)}
 
-/* SELECT */
-select{width:100%;background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A9EC0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
-select:focus{border-color:var(--cyan)}
-select option{background:#172040;color:var(--text)}
+/* Catalog import banner */
+.catalog-banner{background:rgba(34,204,102,.08);border:1px solid rgba(34,204,102,.25);border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.catalog-banner-icon{font-size:1.8rem;flex-shrink:0}
+.catalog-banner h4{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;color:var(--green);margin-bottom:3px}
+.catalog-banner p{font-size:.8rem;color:var(--muted)}
 
-/* CATEGORY GRID */
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
-.cat-btn{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:12px 10px;text-align:center;cursor:pointer;transition:all .2s;font-size:.78rem;color:var(--muted)}
-.cat-btn:hover,.cat-btn.active{border-color:var(--cyan);color:var(--cyan);background:rgba(0,191,255,.08)}
-.cat-btn .cat-ico{font-size:1.4rem;display:block;margin-bottom:4px}
-
-/* PARTS LIST */
-.parts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-height:320px;overflow-y:auto;padding-right:4px}
-.parts-grid::-webkit-scrollbar{width:3px}
-.parts-grid::-webkit-scrollbar-thumb{background:var(--border)}
-.part-item{background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px}
-.part-item:hover{border-color:var(--cyan);background:rgba(0,191,255,.05)}
-.part-item.selected{border-color:var(--cyan);background:rgba(0,191,255,.1)}
-.part-check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;transition:all .2s}
-.part-item.selected .part-check{background:var(--cyan);border-color:var(--cyan);color:#061020}
-.part-name{font-size:.82rem;color:var(--text);line-height:1.3}
-
-/* SELECTED PARTS */
-.selected-list{display:flex;flex-direction:column;gap:10px}
-.sel-item{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+/* Selected parts */
+.sel-list{display:flex;flex-direction:column;gap:10px}
+.sel-item{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;gap:12px;align-items:center}
 .sel-info{flex:1;min-width:0}
 .sel-name{font-size:.85rem;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sel-meta{font-size:.72rem;color:var(--muted);margin-top:2px}
+.sel-model{font-size:.72rem;margin-top:2px}
 .qty-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.qty-btn{width:28px;height:28px;border-radius:7px;background:var(--card);border:1px solid var(--border2);color:var(--text);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .15s;line-height:1}
-.qty-btn:hover{border-color:var(--cyan);color:var(--cyan)}
-.qty-inp{width:60px;background:var(--card);border:1px solid var(--border2);border-radius:7px;padding:4px 8px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;text-align:center;outline:none}
-.qty-inp:focus{border-color:var(--cyan)}
-.sel-del{width:28px;height:28px;border-radius:7px;background:none;border:1px solid var(--border2);color:var(--muted);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
-.sel-del:hover{border-color:var(--red);color:var(--red)}
+.qbtn{width:28px;height:28px;border-radius:7px;background:var(--card);border:1px solid var(--border2);color:var(--text);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.qbtn:hover{border-color:var(--cyan);color:var(--cyan)}
+.qinp{width:56px;background:var(--card);border:1px solid var(--border2);border-radius:7px;padding:4px 8px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;text-align:center;outline:none}
+.qinp:focus{border-color:var(--cyan)}
+.sdel{width:28px;height:28px;border-radius:7px;background:none;border:1px solid var(--border2);color:var(--muted);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.sdel:hover{border-color:var(--red);color:var(--red)}
 
-/* MANUAL ADD */
-.manual-add{display:flex;gap:8px;margin-top:12px}
-.manual-inp{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border2);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
-.manual-inp:focus{border-color:var(--cyan)}
-.manual-inp::placeholder{color:var(--muted)}
-.manual-btn{background:rgba(0,191,255,.15);border:1px solid var(--border);border-radius:10px;color:var(--cyan);padding:11px 16px;cursor:pointer;font-size:.85rem;font-weight:600;white-space:nowrap;transition:all .2s}
-.manual-btn:hover{background:rgba(0,191,255,.25)}
+/* Manual add */
+.madd{display:flex;gap:8px;margin-top:12px}
+.minp{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.minp:focus{border-color:var(--cyan)}
+.minp::placeholder{color:var(--muted)}
+.mbtn{background:rgba(0,191,255,.15);border:1px solid var(--border);border-radius:10px;color:var(--cyan);padding:10px 16px;cursor:pointer;font-size:.83rem;font-weight:600;white-space:nowrap;transition:all .2s}
+.mbtn:hover{background:rgba(0,191,255,.25)}
 
-/* EMPTY STATE */
-.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
-.empty-state .ei{font-size:3rem;margin-bottom:12px}
-.empty-state p{font-size:.88rem}
+/* Buttons */
+.btn-p{background:var(--cyan);color:#061020;padding:14px 36px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;border:none;cursor:pointer;transition:opacity .2s,transform .15s;display:inline-flex;align-items:center;gap:8px}
+.btn-p:hover{opacity:.85;transform:translateY(-1px)}
+.btn-p:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-g{background:var(--card);border:1px solid var(--border2);color:var(--muted);padding:14px 24px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:.9rem;cursor:pointer}
+.btn-g:hover{border-color:var(--cyan);color:var(--text)}
 
-/* ORDER SUMMARY (right panel) */
+/* Summary */
 .summary-panel{position:sticky;top:80px}
-.summary-card{background:var(--card);border:1px solid var(--border2);border-radius:18px;overflow:hidden}
-.summary-header{background:rgba(0,191,255,.08);border-bottom:1px solid var(--border2);padding:18px 22px;display:flex;align-items:center;gap:10px}
-.summary-header h3{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700}
-.summary-body{padding:20px}
-.sum-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border2);gap:12px}
+.sum-card{background:var(--card);border:1px solid var(--border2);border-radius:18px;overflow:hidden}
+.sum-header{background:rgba(0,191,255,.08);border-bottom:1px solid var(--border2);padding:16px 20px;display:flex;align-items:center;gap:10px}
+.sum-header h3{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700}
+.sum-cnt{margin-left:auto;background:var(--cyan);color:#061020;border-radius:100px;padding:2px 10px;font-size:.75rem;font-weight:700}
+.sum-body{padding:18px}
+.sum-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border2);font-size:.82rem}
 .sum-row:last-child{border-bottom:none}
-.sum-key{font-size:.8rem;color:var(--muted);flex-shrink:0}
-.sum-val{font-size:.85rem;font-weight:500;text-align:right}
-.sum-parts{display:flex;flex-direction:column;gap:6px;margin-top:12px}
-.sum-part{display:flex;justify-content:space-between;font-size:.8rem;padding:6px 10px;background:var(--card2);border-radius:8px}
-.sum-part-name{color:var(--light);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sum-part-qty{color:var(--cyan);font-weight:600;margin-left:8px;flex-shrink:0}
+.sum-key{color:var(--muted)}
+.sum-parts{display:flex;flex-direction:column;gap:5px;margin-top:12px}
+.sum-part{display:flex;justify-content:space-between;font-size:.78rem;padding:5px 10px;background:var(--card2);border-radius:7px}
+.sum-pname{color:var(--light);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sum-pqty{color:var(--cyan);font-weight:600;margin-left:8px;flex-shrink:0}
 
-/* CONTACT FORM */
-.form-group{margin-bottom:16px}
-.form-label{font-size:.78rem;font-weight:600;color:var(--light);letter-spacing:.04em;display:block;margin-bottom:7px}
-.form-inp{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border2);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s}
-.form-inp:focus{border-color:var(--cyan);background:rgba(0,191,255,.04)}
-.form-inp::placeholder{color:var(--muted)}
-textarea.form-inp{resize:vertical;min-height:80px}
+/* Modal */
+.modal-ov{position:fixed;inset:0;z-index:9000;background:rgba(5,10,20,.85);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-ov.open{opacity:1;pointer-events:all}
+.modal-box{background:linear-gradient(145deg,#131D35,#0F1829);border:1px solid var(--border);border-radius:22px;padding:48px 44px;width:100%;max-width:540px;position:relative;transform:translateY(20px);transition:transform .3s;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.modal-ov.open .modal-box{transform:translateY(0)}
+.mclose{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.07);border:none;color:var(--muted);width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
-/* SUBMIT */
-.submit-btn{width:100%;background:var(--cyan);color:#061020;border:none;border-radius:12px;padding:16px;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px}
-.submit-btn:hover{box-shadow:0 8px 28px rgba(0,191,255,.35);transform:translateY(-2px)}
-.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+/* Success */
+#success{display:none;text-align:center;padding:80px 24px;max-width:600px;margin:0 auto}
+.sicon{font-size:5rem;margin-bottom:20px;animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.stitle2{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;margin-bottom:12px}
+.ssub{color:var(--muted);margin-bottom:24px;font-size:1rem}
+.snum{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:var(--cyan);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 28px;display:inline-block;margin-bottom:24px}
 
-/* TAGS */
-.tag-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.mini-tag{background:rgba(0,191,255,.1);border:1px solid rgba(0,191,255,.2);border-radius:6px;padding:4px 10px;font-size:.75rem;color:var(--cyan);display:flex;align-items:center;gap:5px}
-.mini-tag .rm{cursor:pointer;color:var(--muted);font-size:.8rem;transition:color .15s}
-.mini-tag .rm:hover{color:var(--red)}
-
-/* SUCCESS */
-#success-screen{display:none;text-align:center;padding:80px 24px}
-.success-icon{font-size:5rem;margin-bottom:20px;animation:popIn .5s cubic-bezier(.34,1.56,.64,1)}
-@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
-.success-title{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;margin-bottom:12px}
-.success-sub{color:var(--muted);max-width:480px;margin:0 auto 32px;font-size:1rem}
-.success-num{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:var(--cyan);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 28px;display:inline-block;margin-bottom:28px}
-
-/* BADGES */
-.badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.info-badge{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;color:var(--muted);background:var(--card2);border:1px solid var(--border2);border-radius:6px;padding:5px 10px}
-
-/* RESPONSIVE */
 @media(max-width:900px){
   nav{padding:12px 20px}
   .main{grid-template-columns:1fr;padding:24px 16px}
   .summary-panel{position:static}
-  .cat-grid{grid-template-columns:repeat(4,1fr)}
-  .parts-grid{grid-template-columns:1fr}
-}
-@media(max-width:500px){
-  .cat-grid{grid-template-columns:repeat(3,1fr)}
+  .frow{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="/" class="nav-logo">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 388.38 304.97" height="28">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 388.38 304.97" height="24">
       <rect fill="#fff" x="0" y="80.6" width="83.05" height="83.05"/>
       <rect fill="#fff" x="0" y="221.92" width="83.05" height="83.05"/>
       <rect fill="#fff" x="110.08" y="0" width="83.05" height="83.05"/>
@@ -189,747 +145,382 @@ textarea.form-inp{resize:vertical;min-height:80px}
     </svg>
     Tash<span>com</span>
   </a>
-  <a href="/" class="nav-back">← Вернуться на сайт</a>
+  <a href="/catalog.html" class="nav-back">← Каталог</a>
 </nav>
 
-<!-- SUCCESS SCREEN -->
-<div id="success-screen">
-  <div class="success-icon">✅</div>
-  <div class="success-title">Заявка отправлена!</div>
-  <p class="success-sub">Наш менеджер получил вашу заявку и свяжется с вами в течение <strong>2 часов</strong> для подтверждения цены и условий.</p>
-  <div class="success-num" id="order-num">#TC-000</div>
+<!-- SUCCESS -->
+<div id="success">
+  <div class="sicon">✅</div>
+  <div class="stitle2">Заявка отправлена!</div>
+  <p class="ssub">Менеджер получил вашу заявку и свяжется в течение <strong>2 часов</strong>.</p>
+  <div class="snum" id="order-num">#TC-000000</div>
   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-    <a href="https://t.me/tashcom_export" target="_blank" style="background:var(--cyan);color:#061020;padding:12px 28px;border-radius:10px;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700">✈️ Написать в Telegram</a>
-    <a href="/order.html" style="border:1px solid var(--border2);color:var(--text);padding:12px 28px;border-radius:10px;text-decoration:none;font-family:'Space Grotesk',sans-serif">+ Новый заказ</a>
+    <a href="https://t.me/tashcom_export" target="_blank" class="btn-p">✈️ Telegram</a>
+    <a href="/catalog.html" class="btn-p" style="background:var(--card);color:var(--text);border:1px solid var(--border2)">← Каталог</a>
   </div>
 </div>
 
 <!-- MAIN -->
 <div class="main" id="order-main">
-
-  <!-- LEFT: ORDER BUILDER -->
   <div>
-    <!-- Steps indicator -->
+    <!-- Steps -->
     <div class="steps-header">
-      <div class="step-tab active" id="stab-1">
-        <div class="snum">1</div>
-        <div>Автомобиль</div>
-      </div>
-      <div class="step-tab" id="stab-2">
-        <div class="snum">2</div>
-        <div>Запчасти</div>
-      </div>
-      <div class="step-tab" id="stab-3">
-        <div class="snum">3</div>
-        <div>Контакты</div>
-      </div>
+      <div class="step-tab active" id="stab-1"><div class="snum">1</div><div>Автомобиль</div></div>
+      <div class="step-tab" id="stab-2"><div class="snum">2</div><div>Запчасти</div></div>
+      <div class="step-tab" id="stab-3"><div class="snum">3</div><div>Контакты</div></div>
     </div>
 
-    <!-- STEP 1: Vehicle -->
+    <!-- STEP 1 -->
     <div id="step-1">
-      <div class="section-card">
-        <div class="section-title"><span>🚗</span> Выберите автомобиль</div>
-        
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+      <div class="scard">
+        <div class="stitle">🚗 Выберите автомобиль</div>
+        <div class="frow" style="margin-bottom:14px">
           <div>
-            <div class="form-label">Марка *</div>
-            <select id="car-make" onchange="onMakeChange()">
+            <div class="flabel" style="margin-bottom:7px">Марка</div>
+            <select id="make" onchange="onMake()">
               <option value="">Выберите марку</option>
               <option>GM Uzbekistan (Cobalt, Nexia, Gentra...)</option>
               <option>Другая марка</option>
             </select>
           </div>
           <div>
-            <div class="form-label">Модель *</div>
-            <select id="car-model" onchange="onModelChange()" disabled>
+            <div class="flabel" style="margin-bottom:7px">Модель</div>
+            <select id="model" disabled>
               <option value="">Сначала марку</option>
             </select>
           </div>
-          <div>
-            <div class="form-label">Год выпуска</div>
-            <select id="car-year">
-              <option value="">Любой</option>
-            </select>
-          </div>
         </div>
-
-        <!-- Manual car input -->
-        <div style="margin-top:4px">
-          <div class="form-label" style="color:var(--muted)">Или введите вручную:</div>
-          <input id="car-manual" class="form-inp" placeholder="Например: Toyota Camry 2018, КамАЗ 65115..." style="margin-top:6px"/>
+        <div>
+          <div class="flabel" style="margin-bottom:7px">Год выпуска</div>
+          <select id="year" style="max-width:180px">
+            <option value="">Любой</option>
+          </select>
         </div>
-
-        <div class="badge-row">
-          <div class="info-badge">💡 Можно выбрать несколько автомобилей</div>
-          <div class="info-badge">🚛 Работаем с легковыми и грузовыми</div>
+        <div style="margin-top:14px">
+          <div class="flabel" style="margin-bottom:7px;color:var(--muted)">Или введите вручную:</div>
+          <input id="car-manual" placeholder="Напр: Damas 2020, Cobalt 2018..."/>
         </div>
-
-        <div id="added-cars" class="tag-wrap" style="margin-top:14px"></div>
-
-        <button onclick="addCar()" style="margin-top:14px;background:rgba(0,191,255,.12);border:1px solid var(--border);border-radius:10px;color:var(--cyan);padding:10px 20px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;transition:all .2s" onmouseover="this.style.background='rgba(0,191,255,.22)'" onmouseout="this.style.background='rgba(0,191,255,.12)'">
-          + Добавить автомобиль
-        </button>
+        <div class="tag-wrap" id="cars-tags"></div>
+        <button onclick="addCar()" style="margin-top:14px;background:rgba(0,191,255,.12);border:1px solid var(--border);border-radius:10px;color:var(--cyan);padding:10px 20px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600">+ Добавить автомобиль</button>
       </div>
-
-      <button class="submit-btn" onclick="goStep(2)" style="max-width:300px">
-        Далее: выбрать запчасти →
-      </button>
+      <button class="btn-p" onclick="goStep(2)">Далее: запчасти →</button>
     </div>
 
-    <!-- STEP 2: Parts -->
+    <!-- STEP 2 -->
     <div id="step-2" style="display:none">
-      <!-- Mini avto qo'shish (catalog dan kelganda) -->
-      <div id="mini-car-add" style="background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:18px 20px;margin-bottom:16px">
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;margin-bottom:12px;color:var(--text)">🚗 Qaysi avtomobil uchun? (ixtiyoriy)</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <select id="mini-make" onchange="miniMakeChange()" style="flex:1;min-width:140px;background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:.85rem;outline:none">
-            <option value="">Marка</option>
-            <option>GM Uzbekistan (Cobalt, Nexia, Gentra...)</option>
-            <option>Другая марка</option>
-          </select>
-          <select id="mini-model" style="flex:1;min-width:120px;background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:.85rem;outline:none">
-            <option value="">Модель</option>
-          </select>
-          <select id="mini-year" style="width:100px;background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:.85rem;outline:none">
-            <option value="">Йил</option>
-          </select>
-          <button onclick="addMiniCar()" style="background:rgba(0,191,255,.15);border:1px solid var(--border);border-radius:8px;color:var(--cyan);padding:9px 16px;cursor:pointer;font-size:.85rem;font-weight:600;white-space:nowrap">+ Qo'shish</button>
-        </div>
-        <div id="mini-cars-tags" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>
-      </div>
-      <div class="section-card">
-        <div class="section-title"><span>🔍</span> Поиск запчасти</div>
-        <div class="search-wrap">
-          <span class="search-icon">🔍</span>
-          <input id="part-search" class="search-inp" placeholder="Введите название запчасти..." autocomplete="off" oninput="onSearch(this.value)" onkeydown="onSearchKey(event)"/>
-          <button class="search-clear" id="search-clear-btn" onclick="clearSearch()">✕</button>
-        </div>
-        <div class="suggestions" id="suggestions"></div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-title"><span>📂</span> Категории</div>
-        <div class="cat-grid">
-          <div class="cat-btn" onclick="selectCat('engine')"><span class="cat-ico">⚙️</span>Двигатель</div>
-          <div class="cat-btn" onclick="selectCat('trans')"><span class="cat-ico">🔩</span>Трансмиссия</div>
-          <div class="cat-btn" onclick="selectCat('brake')"><span class="cat-ico">🛞</span>Тормоза</div>
-          <div class="cat-btn" onclick="selectCat('suspension')"><span class="cat-ico">🔧</span>Подвеска</div>
-          <div class="cat-btn" onclick="selectCat('electric')"><span class="cat-ico">💡</span>Электрика</div>
-          <div class="cat-btn" onclick="selectCat('body')"><span class="cat-ico">🏗️</span>Кузов</div>
-          <div class="cat-btn" onclick="selectCat('cooling')"><span class="cat-ico">🌊</span>Охлаждение</div>
-          <div class="cat-btn" onclick="selectCat('exhaust')"><span class="cat-ico">💨</span>Выхлоп</div>
-          <div class="cat-btn" onclick="selectCat('steering')"><span class="cat-ico">🎯</span>Рулевое</div>
-          <div class="cat-btn" onclick="selectCat('fuel')"><span class="cat-ico">⛽</span>Топливо</div>
-          <div class="cat-btn" onclick="selectCat('cabin')"><span class="cat-ico">💺</span>Салон</div>
-          <div class="cat-btn" onclick="selectCat('filters')"><span class="cat-ico">🧹</span>Фильтры</div>
+      <div id="catalog-banner" style="display:none" class="catalog-banner">
+        <div class="catalog-banner-icon">✅</div>
+        <div>
+          <h4 id="banner-title">Запчасти из каталога добавлены</h4>
+          <p id="banner-sub">Проверьте список и укажите количество</p>
         </div>
       </div>
 
-      <div class="section-card" id="parts-list-card">
-        <div class="section-title" id="parts-list-title"><span>📋</span> Запчасти — <span id="cat-name">выберите категорию</span></div>
-        <div class="parts-grid" id="parts-grid">
-          <div class="empty-state" style="grid-column:1/-1">
-            <div class="ei">☝️</div>
-            <p>Выберите категорию выше<br>или воспользуйтесь поиском</p>
-          </div>
+      <div class="scard">
+        <div class="stitle">📦 Выбранные запчасти</div>
+        <div class="sel-list" id="sel-list">
+          <div style="color:var(--muted);font-size:.85rem;text-align:center;padding:24px">Запчасти не добавлены</div>
         </div>
-        <!-- Manual add -->
         <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border2)">
-          <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Не нашли нужную запчасть? Добавьте вручную:</div>
-          <div class="manual-add">
-            <input id="manual-part-inp" class="manual-inp" placeholder="Название запчасти (артикул, описание)..." onkeydown="if(event.key==='Enter')addManualPart()"/>
-            <button class="manual-btn" onclick="addManualPart()">+ Добавить</button>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Добавить вручную:</div>
+          <div class="madd">
+            <input class="minp" id="manual-inp" placeholder="Название запчасти..." onkeydown="if(event.key==='Enter')addManual()"/>
+            <button class="mbtn" onclick="addManual()">+ Добавить</button>
           </div>
         </div>
       </div>
 
-      <div style="display:flex;gap:12px;margin-top:4px">
-        <button onclick="goStep(1)" style="background:var(--card);border:1px solid var(--border2);color:var(--muted);padding:14px 24px;border-radius:12px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:.9rem">← Назад</button>
-        <button class="submit-btn" onclick="goStep(3)" style="flex:1">
-          Далее: контактные данные →
-        </button>
+      <div style="display:flex;gap:12px">
+        <button class="btn-g" onclick="goStep(1)">← Назад</button>
+        <button class="btn-p" onclick="goStep(3)" style="flex:1">Далее: контакты →</button>
       </div>
     </div>
 
-    <!-- STEP 3: Contacts -->
+    <!-- STEP 3 -->
     <div id="step-3" style="display:none">
-      <div class="section-card">
-        <div class="section-title"><span>👤</span> Контактные данные</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <div class="form-group">
-            <label class="form-label">Ваше имя *</label>
-            <input id="f-name" class="form-inp" placeholder="Иван Иванов" required/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Компания / ИП</label>
-            <input id="f-company" class="form-inp" placeholder='ООО "Название"'/>
-          </div>
+      <div class="scard">
+        <div class="stitle">👤 Контактные данные</div>
+        <div class="frow">
+          <div class="fg"><div class="flabel">Имя *</div><input id="f-name" placeholder="Ваше имя"/></div>
+          <div class="fg"><div class="flabel">Компания</div><input id="f-company" placeholder='ООО "Название"'/></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <div class="form-group">
-            <label class="form-label">Телефон / WhatsApp *</label>
-            <input id="f-phone" class="form-inp" placeholder="+7 / +998 ..." type="tel" required/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Страна доставки *</label>
-            <select id="f-country" class="form-inp">
+        <div class="frow">
+          <div class="fg"><div class="flabel">Телефон *</div><input id="f-phone" placeholder="+998 / +7..." type="tel"/></div>
+          <div class="fg"><div class="flabel">Страна *</div>
+            <select id="f-country">
               <option value="">Выберите страну</option>
               <option>🇰🇿 Казахстан</option>
               <option>🇰🇬 Кыргызстан</option>
               <option>🇹🇯 Таджикистан</option>
               <option>🇹🇲 Туркменистан</option>
               <option>🇷🇺 Россия</option>
-              <option>Другая страна</option>
+              <option>🇺🇿 Узбекистан</option>
+              <option>Другая</option>
             </select>
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Telegram / WhatsApp (для связи)</label>
-          <input id="f-tg" class="form-inp" placeholder="@username или номер" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Дополнительные пожелания</label>
-          <textarea id="f-note" class="form-inp" placeholder="Срочность, особые условия, артикулы..."></textarea>
-        </div>
-
-        <div class="badge-row">
-          <div class="info-badge">🔒 Данные используются только для обработки заказа</div>
-          <div class="info-badge">⏰ Ответим в течение 2 часов</div>
-        </div>
+        <div class="fg"><div class="flabel">Telegram / WhatsApp</div><input id="f-tg" placeholder="@username или номер"/></div>
+        <div class="fg"><div class="flabel">Примечания</div><textarea id="f-note" placeholder="Срочность, особые условия..."></textarea></div>
       </div>
-
       <div style="display:flex;gap:12px">
-        <button onclick="goStep(2)" style="background:var(--card);border:1px solid var(--border2);color:var(--muted);padding:14px 24px;border-radius:12px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:.9rem">← Назад</button>
-        <button class="submit-btn" id="submit-btn" onclick="submitOrder()">
-          📤 Отправить заявку
-        </button>
+        <button class="btn-g" onclick="goStep(2)">← Назад</button>
+        <button class="btn-p" id="submit-btn" onclick="submitOrder()" style="flex:1">📤 Отправить заявку</button>
       </div>
     </div>
   </div>
 
-  <!-- RIGHT: SUMMARY -->
+  <!-- SUMMARY -->
   <div class="summary-panel">
-    <div class="summary-card">
-      <div class="summary-header">
+    <div class="sum-card">
+      <div class="sum-header">
         <span>🛒</span>
         <h3>Ваша заявка</h3>
-        <span style="margin-left:auto;background:var(--cyan);color:#061020;border-radius:100px;padding:2px 10px;font-size:.75rem;font-weight:700" id="cart-count">0</span>
+        <span class="sum-cnt" id="sum-cnt">0</span>
       </div>
-      <div class="summary-body">
-        <div class="sum-row">
-          <span class="sum-key">Автомобиль(и)</span>
-          <span class="sum-val" id="sum-cars" style="color:var(--muted)">Не выбрано</span>
-        </div>
-        <div class="sum-row">
-          <span class="sum-key">Позиций</span>
-          <span class="sum-val" id="sum-count">0</span>
-        </div>
-        <div class="sum-parts" id="sum-parts">
-          <div style="color:var(--muted);font-size:.8rem;text-align:center;padding:12px">Запчасти не выбраны</div>
-        </div>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border2)">
-          <div style="font-size:.75rem;color:var(--muted);text-align:center">
-            Точная цена — после подтверждения менеджером
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Selected parts editor (in summary) -->
-    <div style="margin-top:20px" id="selected-editor">
-      <div style="font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;margin-bottom:12px;color:var(--light)">Выбранные позиции:</div>
-      <div class="selected-list" id="selected-list">
-        <div class="empty-state"><div class="ei">📦</div><p>Запчасти не добавлены</p></div>
+      <div class="sum-body">
+        <div class="sum-row"><span class="sum-key">Автомобиль(и)</span><span id="sum-cars" style="color:var(--muted);text-align:right;max-width:180px">Не выбрано</span></div>
+        <div class="sum-row"><span class="sum-key">Позиций</span><span id="sum-count">0</span></div>
+        <div class="sum-parts" id="sum-parts"><div style="color:var(--muted);font-size:.8rem;text-align:center;padding:8px">Пусто</div></div>
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
-// ════════════════════════════════════════
-// DATA
-// ════════════════════════════════════════
-const CAR_MODELS = {
-  'GM Uzbekistan (Cobalt, Nexia, Gentra...)':['Cobalt','Nexia 3 (Lacetti)','Gentra','Damas','Labo','Matiz','Spark','Captiva','Malibu','Equinox','Tracker'],
-  'Другая марка':['Другая модель']
-};
+// ── STATE ──
+let cars = [];
+let parts = {}; // key -> {name, model, cat, qty}
 
-const PARTS_DB = {
-  engine:[
-    'Поршень','Поршневые кольца','Шатун','Коленвал','Распредвал','Головка блока цилиндров',
-    'Прокладка ГБЦ','Клапан впускной','Клапан выпускной','Маслонасос','Водяная помпа',
-    'Ремень ГРМ','Цепь ГРМ','Натяжитель ремня','Масляный поддон','Сальник коленвала',
-    'Крышка клапанов','Прокладка поддона','Гильза цилиндра','Вкладыши коренные','Вкладыши шатунные',
-    'Турбокомпрессор','Интеркулер','Дроссельная заслонка','Катколлектор'
-  ],
-  trans:[
-    'Коробка передач','Сцепление (комплект)','Диск сцепления','Корзина сцепления','Выжимной подшипник',
-    'Кардан','ШРУС','Граната','Дифференциал','Раздаточная коробка',
-    'Муфта','Синхронизатор','Вилка КПП','Сальник КПП','Фланец кардана',
-    'АКПП','Гидротрансформатор','Фрикционный диск АКПП'
-  ],
-  brake:[
-    'Тормозной диск передний','Тормозной диск задний','Тормозной барабан','Тормозные колодки передние',
-    'Тормозные колодки задние','Тормозной суппорт','Ремкомплект суппорта','Тормозной цилиндр',
-    'Главный тормозной цилиндр','Вакуумный усилитель','ABS датчик','ABS блок',
-    'Тормозной шланг','Тормозная трубка','Стояночный тормоз (трос)'
-  ],
-  suspension:[
-    'Амортизатор передний','Амортизатор задний','Пружина передняя','Пружина задняя',
-    'Рычаг передней подвески','Рычаг задней подвески','Шаровая опора','Стойка стабилизатора',
-    'Втулка стабилизатора','Сайлентблок','Ступичный подшипник','Ступица',
-    'Рулевая тяга','Наконечник рулевой тяги','Рейка рулевая','ГУР насос',
-    'Подрамник','Буфер отбоя','Опора стойки','Подшипник опоры стойки'
-  ],
-  electric:[
-    'Аккумулятор','Генератор','Стартер','Щётки генератора','Реле-регулятор',
-    'Реле стартера','Свечи зажигания','Свечи накаливания','Катушка зажигания',
-    'Высоковольтные провода','Датчик кислорода (лямбда)','Датчик температуры',
-    'Датчик коленвала','Датчик распредвала','Датчик давления масла',
-    'Фара передняя','Фонарь задний','Лампа H4','Лампа H7','Реле поворотников',
-    'Предохранительный блок','Проводка (жгут)','Электромотор стеклоподъёмника'
-  ],
-  body:[
-    'Капот','Бампер передний','Бампер задний','Крыло переднее','Крыло заднее',
-    'Дверь передняя левая','Дверь передняя правая','Дверь задняя левая','Дверь задняя правая',
-    'Лобовое стекло','Боковое стекло','Зеркало левое','Зеркало правое','Крышка багажника',
-    'Порог','Лонжерон','Балка передняя','Рамка радиатора','Уплотнитель двери',
-    'Ручка двери наружная','Ручка двери внутренняя','Замок двери','Петля двери'
-  ],
-  cooling:[
-    'Радиатор охлаждения','Радиатор кондиционера','Вентилятор охлаждения','Термостат',
-    'Крышка радиатора','Расширительный бачок','Патрубок радиатора','Шланг охлаждения',
-    'Компрессор кондиционера','Ресивер-осушитель','Испаритель кондиционера','Трубка кондиционера'
-  ],
-  exhaust:[
-    'Глушитель','Резонатор','Приёмная труба','Катализатор','Прокладка выпускного коллектора',
-    'Выпускной коллектор','Гофра','Хомут глушителя','Подвеска глушителя'
-  ],
-  steering:[
-    'Рулевая рейка','Насос ГУР','Шланг ГУР','Рулевая колонка','Кардан рулевой',
-    'Рулевое колесо','Наконечник рулевой','Тяга рулевая','Крестовина рулевая'
-  ],
-  fuel:[
-    'Топливный насос','Топливный фильтр','Форсунка','ТНВД','Топливная рампа',
-    'Регулятор давления топлива','Датчик уровня топлива','Топливный бак','Трубка топливная'
-  ],
-  cabin:[
-    'Сиденье переднее','Сиденье заднее','Ремень безопасности','Подушка безопасности',
-    'Панель приборов','Замок зажигания','Педальный узел','Коврики','Обшивка двери',
-    'Потолочная обшивка','Бардачок','Зеркало салонное','Солнцезащитный козырёк'
-  ],
-  filters:[
-    'Масляный фильтр','Воздушный фильтр','Топливный фильтр','Фильтр салона',
-    'Фильтр АКПП','Фильтр гидроусилителя','Фильтр кондиционера'
-  ]
-};
+// ── LOAD FROM CATALOG ──
+(function loadCatalogCart() {
+  try {
+    const raw = localStorage.getItem('tashcom_cart');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== 'object') return;
+    
+    Object.entries(data).forEach(([key, item]) => {
+      if (item && item.name) {
+        parts[key] = {
+          name: item.name,
+          model: item.model || '',
+          cat: item.cat || '',
+          qty: item.qty || 1
+        };
+        // Avtoni ham qo'shamiz
+        if (item.model && !cars.includes(item.model)) {
+          cars.push(item.model);
+        }
+      }
+    });
+    
+    localStorage.removeItem('tashcom_cart');
+    
+    if (Object.keys(parts).length > 0) {
+      // Step 2 ga o'tamiz
+      setTimeout(() => {
+        goStepDirect(2);
+        const banner = document.getElementById('catalog-banner');
+        const count = Object.keys(parts).length;
+        document.getElementById('banner-title').textContent = 
+          `${count} запчасть из каталога добавлено`;
+        document.getElementById('banner-sub').textContent = 
+          `Автомобиль: ${cars.join(', ')} · Проверьте количество`;
+        if (banner) banner.style.display = 'flex';
+        updateSummary();
+        renderSelList();
+      }, 50);
+    }
+  } catch(e) {
+    console.log('Cart load error:', e);
+  }
+})();
 
-const CAT_NAMES = {
-  engine:'Двигатель',trans:'Трансмиссия',brake:'Тормоза',suspension:'Подвеска',
-  electric:'Электрика',body:'Кузов',cooling:'Охлаждение',exhaust:'Выхлоп',
-  steering:'Рулевое',fuel:'Топливная система',cabin:'Салон',filters:'Фильтры'
-};
-
-// Build search index
-const ALL_PARTS = [];
-Object.entries(PARTS_DB).forEach(([cat, parts]) => {
-  parts.forEach(p => ALL_PARTS.push({name: p, cat, catName: CAT_NAMES[cat]}));
-});
-
-// ════════════════════════════════════════
-// STATE
-// ════════════════════════════════════════
-let selectedCars = [];
-let selectedParts = {}; // {name: {name, cat, qty}}
-let currentCat = null;
-let searchFocusIdx = -1;
-
-// ════════════════════════════════════════
-// STEPS
-// ════════════════════════════════════════
+// ── STEPS ──
 function goStep(n) {
-  if (n === 2 && selectedCars.length === 0 && !document.getElementById('car-manual').value.trim()) {
-    alert('Пожалуйста, добавьте хотя бы один автомобиль или введите вручную.');
+  if (n === 2 && cars.length === 0 && !document.getElementById('car-manual').value.trim()) {
+    alert('Пожалуйста, добавьте автомобиль или введите вручную.');
     return;
   }
-  if (n === 3 && Object.keys(selectedParts).length === 0) {
-    alert('Пожалуйста, добавьте хотя бы одну запчасть.');
+  if (n === 3 && Object.keys(parts).length === 0) {
+    alert('Добавьте хотя бы одну запчасть.');
     return;
   }
+  goStepDirect(n);
+}
+
+function goStepDirect(n) {
   [1,2,3].forEach(i => {
     document.getElementById('step-'+i).style.display = i===n ? 'block' : 'none';
     const tab = document.getElementById('stab-'+i);
-    tab.classList.remove('active','done');
-    if (i === n) tab.classList.add('active');
-    if (i < n) tab.classList.add('done');
+    tab.className = 'step-tab' + (i===n?' active':i<n?' done':'');
   });
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ════════════════════════════════════════
-// CAR SELECTION
-// ════════════════════════════════════════
-function onMakeChange() {
-  const make = document.getElementById('car-make').value;
-  const modelSel = document.getElementById('car-model');
+// ── CAR ──
+function onMake() {
+  const make = document.getElementById('make').value;
+  const modelSel = document.getElementById('model');
+  const yearSel = document.getElementById('year');
   modelSel.innerHTML = '<option value="">Выберите модель</option>';
   modelSel.disabled = !make;
-  if (make && CAR_MODELS[make]) {
-    CAR_MODELS[make].forEach(m => {
-      const o = document.createElement('option');
-      o.value = m; o.textContent = m;
+  if (make.includes('GM')) {
+    ['Cobalt','Nexia 3','Gentra','Damas','Labo','Matiz'].forEach(m => {
+      const o = document.createElement('option'); o.value = m; o.textContent = m;
       modelSel.appendChild(o);
     });
     modelSel.disabled = false;
   }
-  // Year
-  const yr = document.getElementById('car-year');
-  yr.innerHTML = '<option value="">Любой</option>';
-  const curYear = new Date().getFullYear();
-  for (let y = curYear; y >= 1990; y--) {
+  yearSel.innerHTML = '<option value="">Любой</option>';
+  const cur = new Date().getFullYear();
+  for (let y = cur; y >= 1995; y--) {
     const o = document.createElement('option'); o.value = y; o.textContent = y;
-    yr.appendChild(o);
+    yearSel.appendChild(o);
   }
 }
-
-function onModelChange() {}
 
 function addCar() {
-  const make = document.getElementById('car-make').value;
-  const model = document.getElementById('car-model').value;
-  const year = document.getElementById('car-year').value;
+  const make = document.getElementById('make').value;
+  const model = document.getElementById('model').value;
+  const year = document.getElementById('year').value;
   const manual = document.getElementById('car-manual').value.trim();
-  
-  let carStr = '';
-  if (manual) {
-    carStr = manual;
-    document.getElementById('car-manual').value = '';
-  } else if (make && model) {
-    carStr = `${make} ${model}${year ? ' ' + year : ''}`;
-  } else {
-    alert('Выберите марку и модель, или введите вручную.');
-    return;
-  }
-  
-  if (!selectedCars.includes(carStr)) {
-    selectedCars.push(carStr);
-    renderCars();
-    updateSummary();
-  }
-}
-
-function removeCar(i) {
-  selectedCars.splice(i, 1);
-  renderCars(); updateSummary();
+  let car = '';
+  if (manual) { car = manual; document.getElementById('car-manual').value = ''; }
+  else if (make && model) { car = (make.includes('GM') ? '' : make + ' ') + model + (year ? ' ' + year : ''); }
+  else { alert('Выберите марку и модель, или введите вручную.'); return; }
+  if (!cars.includes(car)) { cars.push(car); renderCars(); updateSummary(); }
 }
 
 function renderCars() {
-  const el = document.getElementById('added-cars');
-  el.innerHTML = selectedCars.map((c,i) => 
-    `<div class="mini-tag">${c}<span class="rm" onclick="removeCar(${i})">✕</span></div>`
+  document.getElementById('cars-tags').innerHTML = cars.map((c,i) =>
+    `<div class="ctag">${c}<span class="rm" onclick="cars.splice(${i},1);renderCars();updateSummary()">✕</span></div>`
   ).join('');
 }
 
-// ════════════════════════════════════════
-// PARTS
-// ════════════════════════════════════════
-function selectCat(cat) {
-  currentCat = cat;
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  document.getElementById('cat-name').textContent = CAT_NAMES[cat];
-  renderPartsList(PARTS_DB[cat]);
-}
-
-function renderPartsList(parts) {
-  const grid = document.getElementById('parts-grid');
-  grid.innerHTML = parts.map(p => {
-    const isSel = !!selectedParts[p];
-    return `<div class="part-item ${isSel?'selected':''}" onclick="togglePart('${p.replace(/'/g,"\\'")}', '${currentCat||''}')">
-      <div class="part-check">${isSel?'✓':''}</div>
-      <div class="part-name">${p}</div>
-    </div>`;
-  }).join('');
-}
-
-function togglePart(name, cat) {
-  if (selectedParts[name]) {
-    delete selectedParts[name];
-  } else {
-    selectedParts[name] = {name, cat, qty: 1};
-  }
-  updateSummary();
-  if (currentCat) renderPartsList(PARTS_DB[currentCat]);
-  
-  // Re-render search results if active
-  const searchVal = document.getElementById('part-search').value;
-  if (searchVal) onSearch(searchVal);
-}
-
-function addManualPart() {
-  const inp = document.getElementById('manual-part-inp');
-  const val = inp.value.trim();
-  if (!val) return;
-  if (!selectedParts[val]) {
-    selectedParts[val] = {name: val, cat: 'manual', qty: 1};
-    updateSummary();
-  }
+// ── PARTS ──
+function addManual() {
+  const inp = document.getElementById('manual-inp');
+  const v = inp.value.trim();
+  if (!v) return;
+  const key = 'manual::' + v;
+  if (!parts[key]) parts[key] = {name:v, model:'', cat:'manual', qty:1};
   inp.value = '';
+  renderSelList(); updateSummary();
 }
 
-// ════════════════════════════════════════
-// SEARCH
-// ════════════════════════════════════════
-function onSearch(val) {
-  const clearBtn = document.getElementById('search-clear-btn');
-  clearBtn.classList.toggle('show', val.length > 0);
-  
-  const sug = document.getElementById('suggestions');
-  
-  if (!val || val.trim().length === 0) {
-    sug.classList.remove('show');
-    sug.innerHTML = '';
-    return;
-  }
-  
-  const q = val.trim().toLowerCase();
-  
-  // Fuzzy search - har bir so'z qismi bo'yicha qidiradi
-  const words = q.split(/\s+/).filter(w => w.length > 0);
-  
-  const results = ALL_PARTS.filter(p => {
-    const name = p.name.toLowerCase();
-    // Barcha so'zlar mos kelishi kerak (AND logic)
-    return words.every(word => name.includes(word));
-  });
-  
-  // Relevance bo'yicha sort: boshidan boshlanadigan birinchi
-  results.sort((a, b) => {
-    const an = a.name.toLowerCase();
-    const bn = b.name.toLowerCase();
-    const aStart = an.startsWith(q) ? 0 : an.indexOf(q) === 0 ? 1 : 2;
-    const bStart = bn.startsWith(q) ? 0 : bn.indexOf(q) === 0 ? 1 : 2;
-    return aStart - bStart;
-  });
-  
-  if (!results.length) {
-    sug.innerHTML = `<div class="sug-item" style="color:var(--muted);cursor:default">
-      <div>
-        <div>Ничего не найдено по запросу "<strong>${val}</strong>"</div>
-        <div class="sug-cat">Добавьте вручную ниже ↓</div>
-      </div>
-    </div>`;
-    sug.classList.add('show');
-    return;
-  }
-  
-  searchFocusIdx = -1;
-  sug.innerHTML = results.map((p, i) => {
-    const isSel = !!selectedParts[p.name];
-    return `<div class="sug-item" data-idx="${i}" onclick="selectSuggest('${p.name.replace(/'/g,"\\'")}','${p.cat}')">
-      <div>
-        <div>${highlightWords(p.name, words)}</div>
-        <div class="sug-cat">${p.catName}</div>
-      </div>
-      ${isSel ? '<span class="sug-badge">✓ Добавлено</span>' : ''}
-    </div>`;
-  }).join('');
-  
-  // Results count
-  if (results.length > 0) {
-    sug.innerHTML = `<div style="padding:8px 16px;font-size:.7rem;color:var(--muted);border-bottom:1px solid var(--border2)">
-      Найдено: <strong style="color:var(--cyan)">${results.length}</strong> позиций
-    </div>` + sug.innerHTML;
-  }
-  
-  sug.classList.add('show');
-}
-
-function highlightWords(text, words) {
-  let result = text;
-  words.forEach(word => {
-    if (!word) return;
-    const regex = new RegExp(`(${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    result = result.replace(regex, '<strong style="color:var(--cyan)">$1</strong>');
-  });
-  return result;
-}
-
-function highlight(text, query) {
-  return highlightWords(text, [query]);
-}
-
-function selectSuggest(name, cat) {
-  if (!selectedParts[name]) selectedParts[name] = {name, cat, qty: 1};
-  document.getElementById('suggestions').classList.remove('show');
-  document.getElementById('part-search').value = '';
-  document.getElementById('search-clear-btn').classList.remove('show');
-  updateSummary();
-  if (currentCat && cat === currentCat) renderPartsList(PARTS_DB[currentCat]);
-}
-
-function clearSearch() {
-  document.getElementById('part-search').value = '';
-  document.getElementById('search-clear-btn').classList.remove('show');
-  document.getElementById('suggestions').classList.remove('show');
-}
-
-function onSearchKey(e) {
-  const items = document.querySelectorAll('.sug-item');
-  if (e.key === 'ArrowDown') { searchFocusIdx = Math.min(searchFocusIdx+1, items.length-1); }
-  else if (e.key === 'ArrowUp') { searchFocusIdx = Math.max(searchFocusIdx-1, 0); }
-  else if (e.key === 'Enter' && searchFocusIdx >= 0) { items[searchFocusIdx]?.click(); return; }
-  else if (e.key === 'Escape') { clearSearch(); return; }
-  items.forEach((it,i) => it.classList.toggle('focused', i === searchFocusIdx));
-}
-
-// ════════════════════════════════════════
-// QUANTITY
-// ════════════════════════════════════════
-function setQty(name, val) {
-  const n = Math.max(1, Math.min(99999, parseInt(val)||1));
-  if (selectedParts[name]) { selectedParts[name].qty = n; updateSummary(); }
-}
-
-function changeQty(name, delta) {
-  if (selectedParts[name]) {
-    selectedParts[name].qty = Math.max(1, (selectedParts[name].qty||1) + delta);
+function changeQty(key, delta) {
+  if (parts[key]) {
+    parts[key].qty = Math.max(1, (parts[key].qty||1) + delta);
+    const inp = document.querySelector(`input[data-key="${CSS.escape(key)}"]`);
+    if (inp) inp.value = parts[key].qty;
     updateSummary();
-    // Update input
-    const inp = document.querySelector(`input[data-part="${CSS.escape(name)}"]`);
-    if (inp) inp.value = selectedParts[name].qty;
   }
 }
 
-function removePart(name) {
-  delete selectedParts[name];
-  updateSummary();
-  if (currentCat) renderPartsList(PARTS_DB[currentCat]);
+function setQty(key, val) {
+  if (parts[key]) { parts[key].qty = Math.max(1, parseInt(val)||1); updateSummary(); }
 }
 
-// ════════════════════════════════════════
-// SUMMARY UPDATE
-// ════════════════════════════════════════
+function removePart(key) {
+  delete parts[key];
+  renderSelList(); updateSummary();
+}
+
+function renderSelList() {
+  const list = document.getElementById('sel-list');
+  const items = Object.entries(parts);
+  if (!items.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:.85rem;text-align:center;padding:24px">Запчасти не добавлены</div>';
+    return;
+  }
+  
+  // Model ranglar
+  const MC = {
+    'Cobalt':'#00BFFF','Nexia 3':'#64B4FF','Gentra':'#00DC96',
+    'Damas':'#FFB400','Labo':'#FF7850','Matiz':'#B464FF'
+  };
+  
+  list.innerHTML = items.map(([key, p]) => `
+    <div class="sel-item">
+      <div class="sel-info">
+        <div class="sel-name">${p.name}</div>
+        ${p.model ? `<div class="sel-model" style="color:${MC[p.model]||'var(--muted)'}">🚗 ${p.model}</div>` : ''}
+      </div>
+      <div class="qty-wrap">
+        <button class="qbtn" onclick="changeQty('${key.replace(/'/g,"\\'")}', -1)">−</button>
+        <input class="qinp" type="number" min="1" value="${p.qty}" data-key="${key}" onchange="setQty('${key.replace(/'/g,"\\'")}', this.value)"/>
+        <button class="qbtn" onclick="changeQty('${key.replace(/'/g,"\\'")}', 1)">+</button>
+      </div>
+      <button class="sdel" onclick="removePart('${key.replace(/'/g,"\\'")}')">✕</button>
+    </div>
+  `).join('');
+}
+
+// ── SUMMARY ──
 function updateSummary() {
-  const parts = Object.values(selectedParts);
-  const count = parts.length;
+  const cnt = Object.keys(parts).length;
+  document.getElementById('sum-cnt').textContent = cnt;
+  document.getElementById('sum-count').textContent = cnt;
   
-  document.getElementById('cart-count').textContent = count;
-  document.getElementById('sum-count').textContent = count;
-  
-  // Cars
   const carsEl = document.getElementById('sum-cars');
-  if (selectedCars.length > 0) {
-    carsEl.textContent = selectedCars.slice(0,2).join(', ') + (selectedCars.length > 2 ? ` +${selectedCars.length-2}` : '');
+  if (cars.length) {
+    carsEl.textContent = cars.slice(0,2).join(', ') + (cars.length>2 ? ' +' + (cars.length-2) : '');
     carsEl.style.color = 'var(--text)';
   } else {
-    carsEl.textContent = 'Не выбрано'; carsEl.style.color = 'var(--muted)';
+    carsEl.textContent = 'Не выбрано';
+    carsEl.style.color = 'var(--muted)';
   }
   
-  // Parts in summary
-  const sumParts = document.getElementById('sum-parts');
-  if (count === 0) {
-    sumParts.innerHTML = '<div style="color:var(--muted);font-size:.8rem;text-align:center;padding:12px">Запчасти не выбраны</div>';
+  const sp = document.getElementById('sum-parts');
+  const items = Object.values(parts);
+  if (!items.length) {
+    sp.innerHTML = '<div style="color:var(--muted);font-size:.8rem;text-align:center;padding:8px">Пусто</div>';
   } else {
-    sumParts.innerHTML = parts.slice(0,6).map(p =>
-      `<div class="sum-part"><span class="sum-part-name">${p.name}</span><span class="sum-part-qty">${p.qty} шт</span></div>`
-    ).join('') + (count > 6 ? `<div style="color:var(--muted);font-size:.75rem;text-align:center;padding:4px">+${count-6} ещё...</div>` : '');
-  }
-  
-  // Selected list (right panel editor)
-  const selList = document.getElementById('selected-list');
-  if (count === 0) {
-    selList.innerHTML = '<div class="empty-state"><div class="ei">📦</div><p>Запчасти не добавлены</p></div>';
-  } else {
-    selList.innerHTML = parts.map(p => `
-      <div class="sel-item">
-        <div class="sel-info">
-          <div class="sel-name">${p.name}</div>
-          <div class="sel-meta">${CAT_NAMES[p.cat]||'Вручную'}</div>
-        </div>
-        <div class="qty-wrap">
-          <button class="qty-btn" onclick="changeQty('${p.name.replace(/'/g,"\\'")}', -1)">−</button>
-          <input class="qty-inp" type="number" min="1" value="${p.qty}" data-part="${p.name}" onchange="setQty('${p.name.replace(/'/g,"\\'")}', this.value)" onblur="setQty('${p.name.replace(/'/g,"\\'")}', this.value)"/>
-          <button class="qty-btn" onclick="changeQty('${p.name.replace(/'/g,"\\'")}', 1)">+</button>
-        </div>
-        <button class="sel-del" onclick="removePart('${p.name.replace(/'/g,"\\'")}')">✕</button>
-      </div>
-    `).join('');
+    sp.innerHTML = items.slice(0,6).map(p =>
+      `<div class="sum-part"><span class="sum-pname">${p.name}</span><span class="sum-pqty">${p.qty} шт</span></div>`
+    ).join('') + (items.length>6 ? `<div style="color:var(--muted);font-size:.73rem;text-align:center;padding:4px">+${items.length-6} ещё</div>` : '');
   }
 }
 
-// ════════════════════════════════════════
-// SUBMIT
-// ════════════════════════════════════════
+// ── SUBMIT ──
 async function submitOrder() {
   const name = document.getElementById('f-name').value.trim();
   const phone = document.getElementById('f-phone').value.trim();
   const country = document.getElementById('f-country').value;
-  
-  if (!name || !phone || !country) {
-    alert('Пожалуйста, заполните обязательные поля: имя, телефон, страна.');
-    return;
-  }
-  
-  const parts = Object.values(selectedParts);
-  if (parts.length === 0) { alert('Добавьте хотя бы одну запчасть.'); return; }
+  if (!name || !phone || !country) { alert('Заполните обязательные поля: имя, телефон, страна.'); return; }
+  if (!Object.keys(parts).length) { alert('Добавьте хотя бы одну запчасть.'); return; }
   
   const btn = document.getElementById('submit-btn');
   btn.disabled = true; btn.textContent = '⏳ Отправляем...';
   
-  // Generate order number
   const orderNum = 'TC-' + Date.now().toString().slice(-6);
+  const partsItems = Object.values(parts);
+  const carsStr = cars.length ? cars.join(', ') : 'Не указано';
+  const partsStr = partsItems.map(p => `  • ${p.name}${p.model?' ('+p.model+')':''} — ${p.qty} шт`).join('\n');
   
-  // Build message
-  const carsStr = selectedCars.length > 0 ? selectedCars.join(', ') : (document.getElementById('car-manual').value || '—');
-  const partsStr = parts.map(p => `  • ${p.name} — ${p.qty} шт.`).join('\n');
-  
-  const text = `🚗 *НОВЫЙ ЗАКАЗ — TASHCOM*
-━━━━━━━━━━━━━━━━━━
-📋 *Заказ:* #${orderNum}
-👤 *Имя:* ${name}
-🏢 *Компания:* ${document.getElementById('f-company').value||'—'}
-📞 *Телефон:* ${phone}
-✈️ *Telegram:* ${document.getElementById('f-tg').value||'—'}
-🌍 *Страна:* ${country}
-━━━━━━━━━━━━━━━━━━
-🚗 *Автомобиль(и):*
-${carsStr}
-━━━━━━━━━━━━━━━━━━
-📦 *Запчасти (${parts.length} позиций):*
-${partsStr}
-━━━━━━━━━━━━━━━━━━
-💬 *Примечания:* ${document.getElementById('f-note').value||'—'}
-🕐 ${new Date().toLocaleString('ru-RU',{timeZone:'Asia/Tashkent'})}`;
-
   try {
-    const res = await fetch('/api/zayavka', {
+    await fetch('/api/zayavka', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({name, company: document.getElementById('f-company').value, phone, country, message: `[ЗАКАЗ #${orderNum}]\nАвто: ${carsStr}\n\nЗапчасти:\n${parts.map(p=>`${p.name} — ${p.qty} шт`).join('\n')}\n\nПримечание: ${document.getElementById('f-note').value||'—'}`})
+      body: JSON.stringify({
+        name,
+        company: document.getElementById('f-company').value || '—',
+        phone,
+        country,
+        message: `[ЗАКАЗ #${orderNum}]\n\nАвтомобиль: ${carsStr}\n\nЗапчасти (${partsItems.length} позиций):\n${partsStr}\n\nTelegram: ${document.getElementById('f-tg').value||'—'}\nПримечание: ${document.getElementById('f-note').value||'—'}`
+      })
     });
-    
-    // Show success
-    document.getElementById('order-main').style.display = 'none';
-    document.getElementById('success-screen').style.display = 'block';
-    document.getElementById('order-num').textContent = '#' + orderNum;
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  } catch(e) {
-    btn.disabled = false; btn.textContent = '📤 Отправить заявку';
-    alert('Ошибка отправки. Напишите нам напрямую: @tashcom_export');
-  }
+  } catch(e) {}
+  
+  document.getElementById('order-main').style.display = 'none';
+  document.getElementById('success').style.display = 'block';
+  document.getElementById('order-num').textContent = '#' + orderNum;
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// Click outside to close suggestions
-document.addEventListener('click', e => {
-  if (!e.target.closest('.search-wrap')) {
-    document.getElementById('suggestions').classList.remove('show');
-  }
-});
-
-// Init year
-onMakeChange();
+// Init
+updateSummary();
 </script>
 </body>
 </html>
